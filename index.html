@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Insight Engine – AI Assistant Prototype (Desktop)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      /* EU-ish dark palette */
+      --eu-blue: #004494;
+      --eu-blue-dark: #002766;
+      --eu-blue-soft: #0b1b3b;
+      --eu-yellow: #ffd617;
+
+      --bg: radial-gradient(circle at top, #02102b 0, #020617 55%, #000 100%);
+      --panel-bg: #050f27;
+      --panel-bg-alt: #061329;
+
+      --accent: var(--eu-blue);
+      --accent-soft: rgba(0, 68, 148, 0.16);
+
+      --border-subtle: rgba(148, 163, 184, 0.35);
+      --border-strong: rgba(148, 163, 184, 0.7);
+
+      --text-main: #f9fafb;
+      --text-muted: #cbd5f5;
+      --text-soft: #9ca3af;
+
+      --success: #22c55e;
+
+      --radius-lg: 18px;
+      --radius-xl: 22px;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.4);
+      --shadow-subtle: 0 10px 25px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* HEADER */
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to right, rgba(0, 39, 102, 0.96), rgba(4, 15, 39, 0.9));
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 4px;
+      background: #003399;
+      border: 1px solid rgba(15, 23, 42, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.4);
+    }
+
+    .brand-logo::before {
+      /* Simple EU stars hint */
+      content: "★";
+      font-size: 13px;
+      color: var(--eu-yellow);
+    }
+
+    .brand-text-title {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .brand-text-subtitle {
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .badge-strip {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 11px;
+    }
+
+    .badge {
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(4, 15, 39, 0.92);
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--success);
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+    }
+
+    .badge-pill {
+      background: var(--accent-soft);
+      border-color: rgba(0, 68, 148, 0.8);
+      color: #e5f0ff;
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(4, 15, 39, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.65);
+    }
+
+    .user-avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #ffffff, #ffd617);
+      color: #002766;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .user-meta {
+      display: flex;
+      flex-direction: column;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .user-meta span:first-child {
+      color: var(--text-main);
+    }
+
+    /* LAYOUT */
+
+    .layout-main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 270px 1.2fr 1.1fr;
+      gap: 12px;
+      padding: 12px;
+    }
+
+    .panel {
+      background: radial-gradient(circle at top left, var(--panel-bg-alt), #020617 70%);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .panel h2 {
+      margin: 0;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-soft);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .panel h2 span {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    /* SIDEBAR */
+
+    .sidebar-section {
+      margin-top: 10px;
+    }
+
+    .sidebar-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      font-size: 11px;
+      color: var(--text-soft);
+      background: rgba(4, 15, 39, 0.9);
+      cursor: pointer;
+      transition: 0.16s all ease-out;
+      white-space: nowrap;
+    }
+
+    .chip:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+    }
+
+    .chip.chip-active {
+      background: linear-gradient(to right, var(--eu-blue), var(--eu-blue-dark));
+      border-color: transparent;
+      color: #e5f0ff;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.6);
+    }
+
+    .status-pill {
+      margin-top: 8px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(22, 163, 74, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.5);
+      color: #bbf7d0;
+    }
+
+    .status-pill span {
+      font-weight: 500;
+    }
+
+    .status-pill svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    /* CHAT */
+
+    .chat-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .chat-header-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .chat-header-sub {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .chat-quick-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .quick-btn {
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      font-size: 11px;
+      background: rgba(4, 15, 39, 0.9);
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: 0.16s all ease-out;
+    }
+
+    .quick-btn:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+    }
+
+    .quick-btn-primary {
+      background: linear-gradient(to right, var(--eu-blue), var(--eu-blue-dark));
+      color: #e5f0ff;
+      border-color: transparent;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.7);
+    }
+
+    .chat-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 6px 4px;
+      border-radius: 14px;
+      background: radial-gradient(circle at top left, rgba(0, 68, 148, 0.22), transparent 50%),
+        radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.6), #020617);
+      border: 1px solid rgba(15, 23, 42, 0.9);
+    }
+
+    .message-group {
+      margin-bottom: 12px;
+    }
+
+    .message-meta {
+      font-size: 10px;
+      color: var(--text-soft);
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .message-meta span:first-child {
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .message-bubble {
+      max-width: 100%;
+      padding: 9px 11px;
+      border-radius: 14px;
+      font-size: 12px;
+      line-height: 1.45;
+      border: 1px solid rgba(15, 23, 42, 0.9);
+      background: rgba(4, 15, 39, 0.95);
+    }
+
+    .message-bubble.assistant {
+      background: linear-gradient(135deg, rgba(0, 68, 148, 0.18), rgba(4, 15, 39, 0.96));
+      border-color: rgba(0, 68, 148, 0.9);
+    }
+
+    .message-bubble strong {
+      color: #e5e7eb;
+    }
+
+    .chat-input-area {
+      border-radius: 14px;
+      padding: 7px 9px;
+      background: rgba(4, 15, 39, 0.96);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+    }
+
+    .chat-input {
+      flex: 1;
+      border-radius: 10px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      background: radial-gradient(circle at top left, rgba(0, 68, 148, 0.25), rgba(4, 15, 39, 0.98));
+      color: var(--text-main);
+      padding: 7px 10px;
+      font-size: 12px;
+      resize: none;
+      max-height: 80px;
+      outline: none;
+    }
+
+    .chat-input::placeholder {
+      color: var(--text-soft);
+    }
+
+    .btn-send {
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      background: linear-gradient(to right, var(--eu-blue), var(--eu-blue-dark));
+      color: #f9fafb;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.8);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-send svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    .chat-footnote {
+      font-size: 10px;
+      color: var(--text-soft);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-footnote span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* STORY CANVAS */
+
+    .canvas-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .canvas-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .canvas-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .canvas-sub {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .pill-ai-label {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      background: rgba(4, 15, 39, 0.96);
+      font-size: 10px;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pill-ai-label svg {
+      width: 11px;
+      height: 11px;
+    }
+
+    .tabs-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .tab-btn {
+      padding: 6px 10px;
+      font-size: 11px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(4, 15, 39, 0.9);
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: 0.16s all ease-out;
+    }
+
+    .tab-btn.tab-active {
+      background: var(--accent-soft);
+      border-color: rgba(0, 68, 148, 0.9);
+      color: var(--text-muted);
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.8);
+    }
+
+    .canvas-body {
+      flex: 1;
+      border-radius: 14px;
+      border: 1px solid rgba(15, 23, 42, 0.9);
+      background: radial-gradient(circle at top right, rgba(0, 68, 148, 0.22), #020617);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+    }
+
+    .canvas-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .canvas-card {
+      padding: 8px 9px;
+      border-radius: 12px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      background: rgba(4, 15, 39, 0.96);
+      margin-bottom: 7px;
+      font-size: 12px;
+    }
+
+    .canvas-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .canvas-card-title {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .canvas-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 3px;
+    }
+
+    .tag {
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      font-size: 9px;
+      color: var(--text-soft);
+    }
+
+    .tag-accent {
+      border-color: rgba(0, 68, 148, 0.95);
+      color: #dbeafe;
+      background: rgba(0, 68, 148, 0.18);
+    }
+
+    .hint-bar {
+      font-size: 10px;
+      color: var(--text-soft);
+      padding-top: 3px;
+      border-top: 1px dashed rgba(55, 65, 81, 0.8);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .hint-bar span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Mini map widget */
+
+    .map-widget {
+      margin-top: 6px;
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: radial-gradient(circle at top, #022c22, #050f27);
+      padding: 8px;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 8px;
+    }
+
+    .map-viewport {
+      position: relative;
+      border-radius: 8px;
+      background: linear-gradient(145deg, #022c22, #020617);
+      overflow: hidden;
+      min-height: 150px;
+    }
+
+    .map-viewport::before {
+      content: "";
+      position: absolute;
+      inset: 10%;
+      border-radius: 40% 60% 55% 45%;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      opacity: 0.6;
+    }
+
+    .map-viewport::after {
+      content: "";
+      position: absolute;
+      inset: 24%;
+      border-radius: 45% 55% 50% 50%;
+      border: 1px dashed rgba(148, 163, 184, 0.5);
+      opacity: 0.5;
+    }
+
+    .map-title-overlay {
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      padding: 3px 7px;
+      font-size: 10px;
+      border-radius: 999px;
+      background: rgba(4, 15, 39, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      color: #e5e7eb;
+    }
+
+    .map-corridor {
+      position: absolute;
+      padding: 3px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.9);
+      background: rgba(0, 68, 148, 0.9);
+      color: #dbeafe;
+      font-size: 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: 0.16s all ease-out;
+    }
+
+    .map-corridor::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--eu-yellow);
+    }
+
+    .map-corridor:hover {
+      transform: translateY(-1px) scale(1.02);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.6);
+    }
+
+    .map-corridor.active {
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.9);
+      background: linear-gradient(to right, var(--eu-blue), var(--eu-blue-dark));
+    }
+
+    .map-legend {
+      position: absolute;
+      right: 6px;
+      bottom: 6px;
+      padding: 4px 6px;
+      border-radius: 6px;
+      background: rgba(4, 15, 39, 0.96);
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      font-size: 9px;
+      color: #9ca3af;
+    }
+
+    .map-legend-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .map-legend-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--eu-yellow);
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.7);
+    }
+
+    .map-details {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .map-details strong {
+      color: #e5e7eb;
+    }
+
+    .map-metric-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 5px;
+    }
+
+    .map-metric-pill {
+      padding: 3px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      font-size: 10px;
+      color: #cbd5f5;
+      background: rgba(4, 15, 39, 0.8);
+    }
+
+    /* Dashboard time slider */
+
+    .time-slider {
+      margin-top: 8px;
+      padding: 6px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(4, 15, 39, 0.9);
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
+      font-size: 10px;
+    }
+
+    .time-label {
+      margin-right: 4px;
+      color: var(--text-soft);
+    }
+
+    .time-chip {
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      background: rgba(15, 23, 42, 0.9);
+      color: #cbd5f5;
+      cursor: pointer;
+      transition: 0.14s all ease-out;
+    }
+
+    .time-chip.active {
+      background: var(--accent-soft);
+      border-color: rgba(0, 68, 148, 0.95);
+      color: #e5f0ff;
+    }
+
+    .time-note {
+      font-size: 10px;
+      color: var(--text-soft);
+      margin-top: 4px;
+    }
+
+    /* Animation storyboard */
+
+    .storyboard-controls {
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+    }
+
+    .storyboard-btn {
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(4, 15, 39, 0.96);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: 0.16s all ease-out;
+    }
+
+    .storyboard-btn:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+    }
+
+    .storyboard-step-indicator {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .storyboard-list {
+      margin-top: 4px;
+      font-size: 11px;
+      padding-left: 16px;
+    }
+
+    .storyboard-list li.current {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    /* Scrollbar */
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(4, 15, 39, 0.9);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(75, 85, 99, 0.8);
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(148, 163, 184, 0.95);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-logo"></div>
+        <div>
+          <div class="brand-text-title">Insight Engine Assistant</div>
+          <div class="brand-text-subtitle">AI-powered EU space-data storytelling</div>
+        </div>
+      </div>
+      <div class="badge-strip">
+        <div class="badge">
+          <div class="badge-dot"></div>
+          Live prototype · Desktop
+        </div>
+        <div class="badge badge-pill">
+          Dashboards · Animated films · Maps · Social graphics
+        </div>
+        <div class="user-pill">
+          <div class="user-avatar">EU</div>
+          <div class="user-meta">
+            <span>Policy Panel Mode</span>
+            <span>Scenario: Delegation communication brief</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN LAYOUT -->
+    <main class="layout-main">
+      <!-- LEFT: CONTEXT SIDEBAR -->
+      <section class="panel">
+        <h2>
+          Experience setup
+          <span>Story format &amp; context</span>
+        </h2>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Experience type</div>
+          <div class="chip-row" id="experienceRow">
+            <button class="chip chip-active">Interactive Dashboard</button>
+            <button class="chip">Animated Short Film</button>
+            <button class="chip">Immersive Map</button>
+            <button class="chip">Social Media Pack</button>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Geography / use case</div>
+          <div class="chip-row" id="useCaseRow">
+            <button class="chip chip-active">Amazon · Deforestation</button>
+            <button class="chip">Mozambique · Cyclone response</button>
+            <button class="chip">Africa · Clean-energy corridors</button>
+            <button class="chip">Global · Daily EU impact</button>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Programme focus</div>
+          <div class="chip-row" id="programmeFocusRow">
+            <button class="chip chip-active">Copernicus</button>
+            <button class="chip">Galileo</button>
+            <button class="chip">Mixed (Copernicus + Galileo)</button>
+            <button class="chip">Full suite (incl. IRIS²)</button>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Target audience</div>
+          <div class="chip-row" id="audienceRow">
+            <button class="chip chip-active">EU Delegations</button>
+            <button class="chip">Schools / Students</button>
+            <button class="chip">Journalists / Media</button>
+            <button class="chip">Citizens (general)</button>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Governance snapshot</div>
+          <div class="status-pill">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="rgba(34,197,94,0.5)" stroke-width="1.5" />
+              <path d="M8 12.5L10.5 15L16 9" stroke="#22c55e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span>Compliant</span> · AI Act &amp; GDPR-ready prototype
+          </div>
+          <div style="font-size: 10px; color: var(--text-soft); margin-top: 4px;">
+            AI-generated, human-checked outputs; federated data handling; green compute (PUE ≤ 1.4, ≥ 50% renewables).
+          </div>
+        </div>
+      </section>
+
+      <!-- CENTER: CHAT -->
+      <section class="panel chat-panel">
+        <div class="chat-header">
+          <div>
+            <div class="chat-header-title">Conversational Workspace</div>
+            <div class="chat-header-sub">
+              Ask for a concrete experience: a dashboard, an animated explainer, an immersive map, or a social-media pack – all grounded in EU space data.
+            </div>
+            <div class="chat-quick-row">
+              <button class="quick-btn quick-btn-primary" id="qbDashboard">
+                Dashboard: Amazon deforestation (Copernicus)
+              </button>
+              <button class="quick-btn" id="qbAnimation">
+                Animated film: Galileo convoys in Mozambique
+              </button>
+              <button class="quick-btn" id="qbMap">
+                Immersive map: clean-energy corridors in Africa
+              </button>
+              <button class="quick-btn" id="qbSocial">
+                Social pack: today’s EU environmental contributions
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-body" id="chatBody"></div>
+
+        <div class="chat-input-area">
+          <div class="chat-input-row">
+            <textarea
+              id="chatInput"
+              class="chat-input"
+              rows="2"
+              placeholder="Example: “Design an interactive Copernicus dashboard on real-time deforestation alerts in the Amazon for Delegations and journalists.”"
+            ></textarea>
+            <button class="btn-send" id="sendBtn">
+              <span>Generate</span>
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 19L20 12L4 5L4 11L14 12L4 13L4 19Z" fill="currentColor" />
+              </svg>
+            </button>
+          </div>
+          <div class="chat-footnote">
+            <span>
+              ⓘ
+              <span>AI-assisted · Human review required before external dissemination.</span>
+            </span>
+            <span>Mode: <strong>Prototype · Desktop · Internal only</strong></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: STORY CANVAS -->
+      <section class="panel canvas-panel">
+        <div class="canvas-header">
+          <div>
+            <div class="canvas-title">Story Canvas</div>
+            <div class="canvas-sub">
+              The blueprint of your chosen experience – dashboard, animated film, immersive map (with demo map), or social-media bundle.
+            </div>
+            <div class="tabs-row" id="tabsRow">
+              <button class="tab-btn tab-active" data-tab="dashboard">Dashboard</button>
+              <button class="tab-btn" data-tab="animation">Animated film</button>
+              <button class="tab-btn" data-tab="map">Immersive map</button>
+              <button class="tab-btn" data-tab="social">Social media pack</button>
+            </div>
+          </div>
+          <div class="pill-ai-label">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="9" stroke="rgba(148,163,184,0.7)" stroke-width="1.4" />
+              <path d="M9.5 10.2C9.5 8.9 10.4 8 11.8 8C13.1 8 14 8.8 14 9.9C14 10.8 13.5 11.4 12.7 11.8L12.5 11.9C11.9 12.2 11.7 12.5 11.7 13.1V13.4" stroke="#e5e7eb" stroke-width="1.4" stroke-linecap="round" />
+              <circle cx="11.8" cy="15.3" r="0.9" fill="#e5e7eb" />
+            </svg>
+            AI-generated · Reviewed by humans
+          </div>
+        </div>
+
+        <div class="canvas-body">
+          <div class="canvas-scroll" id="canvasContent"></div>
+          <div class="hint-bar">
+            <span>Tip: change Experience setup on the left or use the quick buttons – the canvas text and demo map update in real time.</span>
+            <span>Outputs: dashboards · films · maps · shareable graphics</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const basePolicyIdeas =
+      "Insight Engine is a joint EUSPA–EEAS AI storytelling platform that turns Copernicus, Galileo, EGNOS, GOVSATCOM and IRIS² data into multilingual narratives, visuals, and communication products. " +
+      "It is aligned with the AI Act, GDPR, data-sovereignty requirements, and green computing targets (PUE ≤ 1.4, ≥ 50% renewables). " +
+      "The objective is to strengthen EU foreign policy, strategic communication, and downstream industry by making space-data visible, human-centred, and democratic.";
+
+    const chatBody = document.getElementById("chatBody");
+    const chatInput = document.getElementById("chatInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const canvasContent = document.getElementById("canvasContent");
+    const tabsRow = document.getElementById("tabsRow");
+    let activeTab = "dashboard";
+
+    function appendMessage(author, text) {
+      const group = document.createElement("div");
+      group.className = "message-group";
+
+      const meta = document.createElement("div");
+      meta.className = "message-meta";
+      const who = document.createElement("span");
+      who.textContent = author === "user" ? "You" : "Insight Engine";
+      const mode = document.createElement("span");
+      mode.textContent = author === "user" ? "Prompt" : "AI response (prototype)";
+      meta.appendChild(who);
+      meta.appendChild(mode);
+
+      const bubble = document.createElement("div");
+      bubble.className = "message-bubble" + (author === "assistant" ? " assistant" : "");
+      bubble.innerHTML = text;
+
+      group.appendChild(meta);
+      group.appendChild(bubble);
+      chatBody.appendChild(group);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function initialMessages() {
+      appendMessage(
+        "assistant",
+        "<strong>Welcome.</strong> This prototype focuses on four concrete outputs: " +
+          "<em>interactive dashboards, animated short films, immersive maps, and social-media ready graphics</em>, all powered by EU space data." +
+          "<br/><br/>Use the quick buttons or the left panel to choose an experience like a Copernicus deforestation dashboard or an immersive Africa energy corridors map."
+      );
+      appendMessage(
+        "user",
+        "Use the provided policy brief and speech draft to generate concrete UI for dashboards, animated films, immersive maps (with map demo) and social-media packs."
+      );
+      appendMessage(
+        "assistant",
+        "<strong>Understood.</strong> The Story Canvas on the right reflects your selections in “Experience setup”. " +
+          "Change the format, geography, programme or audience, and the blueprint text – and, for maps, the demo corridors – will update."
+      );
+    }
+    initialMessages();
+
+    function getActiveChipLabel(id) {
+      const row = document.getElementById(id);
+      if (!row) return null;
+      const active = row.querySelector(".chip-active");
+      return active ? active.textContent.trim() : null;
+    }
+
+    function generateAssistantResponse(userText) {
+      const experience = getActiveChipLabel("experienceRow") || "Interactive Dashboard";
+      const useCase = getActiveChipLabel("useCaseRow") || "Global · Daily EU impact";
+      const programme = getActiveChipLabel("programmeFocusRow") || "Copernicus";
+      const audience = getActiveChipLabel("audienceRow") || "EU Delegations";
+
+      return (
+        "<strong>Experience brief:</strong> " +
+        experience +
+        " · " +
+        useCase +
+        " · " +
+        programme +
+        " · " +
+        audience +
+        "<br/><br/>" +
+        "I will design this as part of the Insight Engine platform, ensuring that:<br/>" +
+        "• Raw satellite data is translated into clear, multilingual content accessible to everyone.<br/>" +
+        "• The format matches your choice (" +
+        experience.toLowerCase() +
+        ") and the needs of " +
+        audience +
+        ".<br/>" +
+        "• Outputs can be reused by EU Delegations, schools, journalists and citizens.<br/><br/>" +
+        "<strong>Policy backbone:</strong> " +
+        basePolicyIdeas +
+        "<br/><br/>" +
+        "The Story Canvas has been updated with a detailed blueprint for the selected experience type."
+      );
+    }
+
+    function handleSend() {
+      const text = chatInput.value;
+      if (!text.trim()) return;
+      appendMessage("user", text);
+      const response = generateAssistantResponse(text);
+      appendMessage("assistant", response);
+      chatInput.value = "";
+      updateCanvas();
+    }
+
+    sendBtn.addEventListener("click", handleSend);
+    chatInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        handleSend();
+      }
+    });
+
+    /* Chips + Experience mapping to tabs */
+
+    function setupChipRow(id, onClickExtra) {
+      const row = document.getElementById(id);
+      if (!row) return;
+      row.addEventListener("click", (e) => {
+        if (e.target.classList.contains("chip")) {
+          [...row.querySelectorAll(".chip")].forEach((chip) => chip.classList.remove("chip-active"));
+          e.target.classList.add("chip-active");
+          if (onClickExtra) onClickExtra(e.target.textContent.trim());
+          updateCanvas();
+        }
+      });
+    }
+
+    function activateChip(rowId, startsWith) {
+      const row = document.getElementById(rowId);
+      if (!row) return;
+      [...row.querySelectorAll(".chip")].forEach((chip) => {
+        if (chip.textContent.trim().startsWith(startsWith)) {
+          chip.classList.add("chip-active");
+        } else {
+          chip.classList.remove("chip-active");
+        }
+      });
+    }
+
+    function activateTab(tabName) {
+      activeTab = tabName;
+      [...tabsRow.querySelectorAll(".tab-btn")].forEach((t) => {
+        t.classList.toggle("tab-active", t.dataset.tab === tabName);
+      });
+    }
+
+    setupChipRow("useCaseRow");
+    setupChipRow("programmeFocusRow");
+    setupChipRow("audienceRow");
+
+    setupChipRow("experienceRow", (label) => {
+      if (label.startsWith("Interactive Dashboard")) {
+        activateTab("dashboard");
+      } else if (label.startsWith("Animated Short Film")) {
+        activateTab("animation");
+      } else if (label.startsWith("Immersive Map")) {
+        activateTab("map");
+      } else if (label.startsWith("Social Media Pack")) {
+        activateTab("social");
+      }
+    });
+
+    // Tabs click
+    tabsRow.addEventListener("click", (e) => {
+      const btn = e.target.closest(".tab-btn");
+      if (!btn) return;
+      activeTab = btn.dataset.tab;
+      [...tabsRow.querySelectorAll(".tab-btn")].forEach((t) => t.classList.remove("tab-active"));
+      btn.classList.add("tab-active");
+
+      // Sync experience chip with tab
+      if (activeTab === "dashboard") activateChip("experienceRow", "Interactive Dashboard");
+      if (activeTab === "animation") activateChip("experienceRow", "Animated Short Film");
+      if (activeTab === "map") activateChip("experienceRow", "Immersive Map");
+      if (activeTab === "social") activateChip("experienceRow", "Social Media Pack");
+
+      updateCanvas();
+    });
+
+    // Quick buttons: preset chips + switch tab
+    document.getElementById("qbDashboard").addEventListener("click", () => {
+      activateChip("experienceRow", "Interactive Dashboard");
+      activateChip("useCaseRow", "Amazon");
+      activateChip("programmeFocusRow", "Copernicus");
+      activateChip("audienceRow", "EU Delegations");
+      activateTab("dashboard");
+      updateCanvas();
+    });
+
+    document.getElementById("qbAnimation").addEventListener("click", () => {
+      activateChip("experienceRow", "Animated Short Film");
+      activateChip("useCaseRow", "Mozambique");
+      activateChip("programmeFocusRow", "Galileo");
+      activateChip("audienceRow", "Citizens");
+      activateTab("animation");
+      updateCanvas();
+    });
+
+    document.getElementById("qbMap").addEventListener("click", () => {
+      activateChip("experienceRow", "Immersive Map");
+      activateChip("useCaseRow", "Africa");
+      activateChip("programmeFocusRow", "Mixed");
+      activateChip("audienceRow", "EU Delegations");
+      activateTab("map");
+      updateCanvas();
+    });
+
+    document.getElementById("qbSocial").addEventListener("click", () => {
+      activateChip("experienceRow", "Social Media Pack");
+      activateChip("useCaseRow", "Global");
+      activateChip("programmeFocusRow", "Full suite");
+      activateChip("audienceRow", "Journalists");
+      activateTab("social");
+      updateCanvas();
+    });
+
+    /* Canvas renderers */
+
+    function renderDashboardTab(useCase, programme, audience) {
+      const card = document.createElement("div");
+      card.className = "canvas-card";
+      const titleSuffix = useCase.includes("Amazon") ? " – Copernicus alerts in the Amazon" : "";
+      card.innerHTML =
+        '<div class="canvas-card-header">' +
+        '<div class="canvas-card-title">Interactive dashboard' +
+        titleSuffix +
+        "</div>" +
+        '<span style="font-size:10px;color:var(--text-soft);">' +
+        useCase +
+        " · " +
+        audience +
+        "</span>" +
+        "</div>" +
+        "<div>" +
+        "<strong>Purpose:</strong> A live, explorable " +
+        programme +
+        " dashboard showing real-time environmental or security alerts, designed for " +
+        audience +
+        ".<br/><br/>" +
+        "<strong>Key components:</strong><br/>" +
+        "• <em>Main map view:</em> geospatial view of the selected area (e.g. Amazon basin for deforestation) with coloured alert tiles.<br/>" +
+        "• <em>Time slider:</em> switch between 24 hours, 7 days and 30 days to see how alerts evolve over time.<br/>" +
+        "• <em>EU actions panel:</em> side panel summarising EU-supported initiatives linked to affected areas.<br/>" +
+        "• <em>Filters:</em> country, protected areas, type of risk, relevant EU programmes.<br/>" +
+        "• <em>Download &amp; share:</em> one-click export of a snapshot (image + caption) for Delegations’ social channels.<br/><br/>" +
+        "<strong>Multilingual layer:</strong> interface and key explanatory text available in multiple EU languages and partner-country languages where relevant." +
+        "</div>";
+
+      // Fake time slider
+      const slider = document.createElement("div");
+      slider.className = "time-slider";
+      slider.innerHTML =
+        '<span class="time-label">Time window:</span>' +
+        '<button class="time-chip active" data-range="24h">Last 24h</button>' +
+        '<button class="time-chip" data-range="7d">Last 7 days</button>' +
+        '<button class="time-chip" data-range="30d">Last 30 days</button>';
+
+      const note = document.createElement("div");
+      note.className = "time-note";
+      note.textContent = "Showing: alerts detected in the last 24 hours.";
+
+      slider.addEventListener("click", (e) => {
+        const btn = e.target.closest(".time-chip");
+        if (!btn) return;
+        [...slider.querySelectorAll(".time-chip")].forEach((c) => c.classList.remove("active"));
+        btn.classList.add("active");
+        const range = btn.dataset.range;
+        if (range === "24h") {
+          note.textContent = "Showing: alerts detected in the last 24 hours.";
+        } else if (range === "7d") {
+          note.textContent = "Showing: alerts detected over the last 7 days.";
+        } else {
+          note.textContent = "Showing: cumulative alerts over the last 30 days.";
+        }
+      });
+
+      card.appendChild(slider);
+      card.appendChild(note);
+
+      const tags = document.createElement("div");
+      tags.className = "canvas-tag-row";
+      [
+        "Dashboard",
+        programme,
+        useCase,
+        audience,
+        "Multilingual",
+        "Shareable snapshots",
+      ].forEach((label, idx) => {
+        const t = document.createElement("span");
+        t.className = "tag" + (idx < 2 ? " tag-accent" : "");
+        t.textContent = label;
+        tags.appendChild(t);
+      });
+      card.appendChild(tags);
+      canvasContent.appendChild(card);
+    }
+
+    function renderAnimationTab(useCase, programme, audience) {
+      const card = document.createElement("div");
+      card.className = "canvas-card";
+
+      card.innerHTML =
+        '<div class="canvas-card-header">' +
+        '<div class="canvas-card-title">Animated short film – humanitarian convoys</div>' +
+        '<span style="font-size:10px;color:var(--text-soft);">' +
+        useCase +
+        " · " +
+        audience +
+        "</span>" +
+        "</div>" +
+        "<div>" +
+        "<strong>Purpose:</strong> A 60–90 second animated explainer showing how " +
+        (programme.includes("Galileo") ? programme : "Galileo") +
+        " supports humanitarian convoys after a major weather event.<br/><br/>" +
+        "<strong>Story beats:</strong>" +
+        "</div>";
+
+      const ul = document.createElement("ul");
+      ul.className = "storyboard-list";
+      ul.innerHTML =
+        "<li data-step='1'>Opening: satellite view of the storm and impact on the ground.</li>" +
+        "<li data-step='2'>Signal from space: satellites provide precise positioning and timing.</li>" +
+        "<li data-step='3'>Convoy coordination: map sequence with routes, safe zones and supplies.</li>" +
+        "<li data-step='4'>EU role: EU flag and short captions on programmes and partners.</li>" +
+        "<li data-step='5'>Closing: “Data from space, support on the ground” + call to learn more.</li>";
+
+      card.appendChild(ul);
+
+      const controls = document.createElement("div");
+      controls.className = "storyboard-controls";
+      const btn = document.createElement("button");
+      btn.className = "storyboard-btn";
+      btn.innerHTML = "▶ Play storyboard";
+      const indicator = document.createElement("span");
+      indicator.className = "storyboard-step-indicator";
+      indicator.textContent = "Current scene: 1 / 5";
+
+      controls.appendChild(btn);
+      controls.appendChild(indicator);
+      card.appendChild(controls);
+
+      let currentStep = 1;
+      function updateStoryboardHighlight() {
+        [...ul.querySelectorAll("li")].forEach((li) => {
+          const step = Number(li.dataset.step);
+          li.classList.toggle("current", step === currentStep);
+        });
+        indicator.textContent = "Current scene: " + currentStep + " / 5";
+      }
+      updateStoryboardHighlight();
+
+      btn.addEventListener("click", () => {
+        currentStep = currentStep === 5 ? 1 : currentStep + 1;
+        updateStoryboardHighlight();
+      });
+
+      const extra = document.createElement("div");
+      extra.style.marginTop = "6px";
+      extra.innerHTML =
+        "<strong>Format &amp; accessibility:</strong> 16:9 and 1:1 versions for social media, with voice-over and subtitles in EU and partner languages. Script and storyboard drafted by the Insight Engine, visuals and narration approved by humans.";
+
+      card.appendChild(extra);
+
+      const tags = document.createElement("div");
+      tags.className = "canvas-tag-row";
+      [
+        "Animated film",
+        programme.includes("Galileo") ? "Galileo" : "Navigation services",
+        useCase,
+        audience,
+        "Subtitles & dubbing",
+      ].forEach((label, idx) => {
+        const t = document.createElement("span");
+        t.className = "tag" + (idx < 2 ? " tag-accent" : "");
+        t.textContent = label;
+        tags.appendChild(t);
+      });
+      card.appendChild(tags);
+
+      canvasContent.appendChild(card);
+    }
+
+    function renderMapTab(useCase, programme, audience) {
+      const card = document.createElement("div");
+      card.className = "canvas-card";
+
+      card.innerHTML =
+        '<div class="canvas-card-header">' +
+        '<div class="canvas-card-title">Immersive map – clean-energy corridors</div>' +
+        '<span style="font-size:10px;color:var(--text-soft);">' +
+        useCase +
+        " · " +
+        audience +
+        "</span>" +
+        "</div>" +
+        "<div><strong>Purpose:</strong> An interactive map that visualises EU space-supported projects on clean-energy corridors, " +
+        "using " +
+        programme +
+        " data layers for context.</div>";
+
+      const mapWidget = document.createElement("div");
+      mapWidget.className = "map-widget";
+      mapWidget.innerHTML =
+        '<div class="map-viewport">' +
+        '<div class="map-title-overlay">Africa · Clean-energy corridors (demo)</div>' +
+        '<div class="map-corridor" data-id="sahel" style="top:40%;left:28%;">Sahel corridor</div>' +
+        '<div class="map-corridor" data-id="east" style="top:55%;left:52%;">East Africa grid</div>' +
+        '<div class="map-corridor" data-id="south" style="top:68%;left:42%;">Southern solar belt</div>' +
+        '<div class="map-legend">' +
+        '<div class="map-legend-row"><span class="map-legend-dot"></span> Clean-energy corridor</div>' +
+        "</div>" +
+        "</div>" +
+        '<div class="map-details"></div>';
+
+      card.appendChild(mapWidget);
+
+      const desc = document.createElement("div");
+      desc.style.marginTop = "6px";
+      desc.innerHTML =
+        "<strong>User journey:</strong> hover or tap corridors to see project narratives, metrics and links to official information. Delegations can launch a guided tour mode in presentations, while citizens can explore freely online.<br/><br/>" +
+        "<strong>Space-data layer:</strong> " +
+        (programme.includes("Copernicus") ? "Copernicus" : "EU space") +
+        " indicators (solar irradiance, land use, infrastructure) and, where relevant, Galileo/EGNOS for precise mapping.";
+
+      card.appendChild(desc);
+
+      const tags = document.createElement("div");
+      tags.className = "canvas-tag-row";
+      [
+        "Immersive map",
+        "Africa",
+        "Clean-energy corridors",
+        programme,
+        audience,
+      ].forEach((label, idx) => {
+        const t = document.createElement("span");
+        t.className = "tag" + (idx < 2 ? " tag-accent" : "");
+        t.textContent = label;
+        tags.appendChild(t);
+      });
+      card.appendChild(tags);
+
+      canvasContent.appendChild(card);
+
+      // Map interactivity
+      const corridors = card.querySelectorAll(".map-corridor");
+      const details = card.querySelector(".map-details");
+
+      const corridorData = {
+        sahel: {
+          title: "Sahel corridor",
+          text:
+            "Cross-border solar and transmission projects in the Sahel region, using space data to guide site selection, land-use planning and climate-risk screening.",
+          metrics: ["≈ 2.5M people reached", "≈ 1.2 MtCO₂ avoided / year", "EU support: grants + blending"],
+        },
+        east: {
+          title: "East Africa grid",
+          text:
+            "Reinforced transmission lines and interconnectors along an East Africa corridor, with satellite data mapping demand centres, infrastructure and environmental constraints.",
+          metrics: ["≈ 3.1M people reached", "≈ 1.8 MtCO₂ avoided / year", "EU support: technical assistance"],
+        },
+        south: {
+          title: "Southern solar belt",
+          text:
+            "Utility-scale solar parks and grid upgrades in Southern Africa, supported by Copernicus solar resource mapping and land-suitability assessments.",
+          metrics: ["≈ 4.0M people reached", "≈ 2.3 MtCO₂ avoided / year", "EU support: guarantees + investment"],
+        },
+      };
+
+      function setActiveCorridor(id) {
+        corridors.forEach((c) => c.classList.toggle("active", c.getAttribute("data-id") === id));
+        const data = corridorData[id];
+        if (!data) return;
+        let html =
+          "<strong>Selected corridor:</strong> " +
+          data.title +
+          "<br/>" +
+          data.text +
+          '<div class="map-metric-row">';
+        data.metrics.forEach((m) => {
+          html += '<div class="map-metric-pill">' + m + "</div>";
+        });
+        html += "</div>";
+        details.innerHTML = html;
+      }
+
+      corridors.forEach((c) => {
+        c.addEventListener("click", () => setActiveCorridor(c.getAttribute("data-id")));
+      });
+
+      setActiveCorridor("sahel");
+    }
+
+    function renderSocialTab(useCase, programme, audience) {
+      const card = document.createElement("div");
+      card.className = "canvas-card";
+      card.innerHTML =
+        '<div class="canvas-card-header">' +
+        '<div class="canvas-card-title">Social-media pack – daily EU contributions</div>' +
+        '<span style="font-size:10px;color:var(--text-soft);">' +
+        useCase +
+        " · " +
+        audience +
+        "</span>" +
+        "</div>" +
+        "<div>" +
+        "<strong>Purpose:</strong> Automatically generated, human-checked graphics highlighting daily EU environmental or security contributions, " +
+        "using " +
+        programme +
+        " as the data backbone.<br/><br/>" +
+        "<strong>Pack contents (per day):</strong><br/>" +
+        "• <em>1x “Today from space” graphic:</em> a key Copernicus or Galileo insight with a simple caption.<br/>" +
+        "• <em>2–3 explainer tiles:</em> “How EU space helps monitor this”, “Why this matters locally”.<br/>" +
+        "• <em>Caption set:</em> ready-to-use text for X, Facebook, LinkedIn and Instagram, plus alt-text suggestions.<br/><br/>" +
+        "<strong>Personalisation:</strong> Delegations can add a local angle; teachers can switch to a simplified “classroom mode”.<br/><br/>" +
+        "<strong>Traceability:</strong> each graphic carries a discreet label (data source, date, AI involvement) and links back to an EU page with more detail." +
+        "</div>";
+
+      const tags = document.createElement("div");
+      tags.className = "canvas-tag-row";
+      [
+        "Social media",
+        "Daily EU impact",
+        programme,
+        audience,
+        "Delegations",
+        "Schools",
+        "Alt-text & accessibility",
+      ].forEach((label, idx) => {
+        const t = document.createElement("span");
+        t.className = "tag" + (idx < 2 ? " tag-accent" : "");
+        t.textContent = label;
+        tags.appendChild(t);
+      });
+      card.appendChild(tags);
+
+      canvasContent.appendChild(card);
+    }
+
+    function updateCanvas() {
+      const useCase = getActiveChipLabel("useCaseRow") || "Global · Daily EU impact";
+      const programme = getActiveChipLabel("programmeFocusRow") || "Copernicus";
+      const audience = getActiveChipLabel("audienceRow") || "EU Delegations";
+
+      canvasContent.innerHTML = "";
+
+      if (activeTab === "dashboard") {
+        renderDashboardTab(useCase, programme, audience);
+      } else if (activeTab === "animation") {
+        renderAnimationTab(useCase, programme, audience);
+      } else if (activeTab === "map") {
+        renderMapTab(useCase, programme, audience);
+      } else if (activeTab === "social") {
+        renderSocialTab(useCase, programme, audience);
+      }
+    }
+
+    // initial canvas
+    updateCanvas();
+  </script>
+</body>
+</html>
