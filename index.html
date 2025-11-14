@@ -5,41 +5,21 @@
   <title>Insight Engine – EU Space Data Assistant (Desktop Prototype)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    /*****************************************************
-     * GLOBAL THEME – DARK EU OFFICIAL LOOK
-     *****************************************************/
     :root {
       --eu-blue: #004494;
       --eu-blue-dark: #002766;
-      --eu-blue-deep: #020617;
-      --eu-blue-soft: #0b1730;
       --eu-yellow: #ffd617;
-
       --bg-gradient: radial-gradient(circle at top, #041331 0%, #020617 55%, #000 100%);
-      --panel-bg: #050f27;
       --panel-bg-alt: #07162f;
-
       --text-main: #f9fafb;
       --text-muted: #d1ddff;
       --text-soft: #9ca3af;
-
       --border-subtle: rgba(148, 163, 184, 0.35);
       --border-strong: rgba(148, 163, 184, 0.75);
       --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.7);
-
-      --accent: var(--eu-blue);
-      --accent-soft: rgba(0, 68, 148, 0.17);
-      --accent-soft-strong: rgba(0, 68, 148, 0.28);
-
-      --success: #22c55e;
-
-      --radius-lg: 18px;
-      --radius-xl: 22px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     html, body {
       margin: 0;
@@ -51,9 +31,7 @@
       overscroll-behavior: none;
     }
 
-    body {
-      overflow: hidden;
-    }
+    body { overflow: hidden; }
 
     .app-shell {
       display: flex;
@@ -61,9 +39,6 @@
       height: 100vh;
     }
 
-    /*****************************************************
-     * HEADER
-     *****************************************************/
     .header-ribbon {
       height: 3px;
       background: linear-gradient(
@@ -168,12 +143,12 @@
       width: 8px;
       height: 8px;
       border-radius: 999px;
-      background: var(--success);
+      background: #22c55e;
       box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
     }
 
     .badge-pill {
-      background: var(--accent-soft);
+      background: rgba(0, 68, 148, 0.17);
       border-color: rgba(0, 68, 148, 0.8);
       color: #e5f0ff;
     }
@@ -208,9 +183,7 @@
       color: var(--text-muted);
     }
 
-    .user-meta span:first-child {
-      color: var(--text-main);
-    }
+    .user-meta span:first-child { color: var(--text-main); }
 
     .header-sub-left {
       display: flex;
@@ -238,21 +211,18 @@
       font-size: 10px;
     }
 
-    /*****************************************************
-     * MAIN LAYOUT GRID
-     *****************************************************/
     .layout-main {
       flex: 1;
       display: grid;
-      grid-template-columns: 270px 1fr 1.15fr;
+      grid-template-columns: 270px 1fr 1.2fr;
       gap: 12px;
       padding: 12px;
       max-height: calc(100vh - 84px);
     }
 
     .panel {
-      background: radial-gradient(circle at top left, var(--panel-bg-alt), var(--eu-blue-deep));
-      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at top left, var(--panel-bg-alt), #020617);
+      border-radius: 22px;
       border: 1px solid var(--border-subtle);
       box-shadow: var(--shadow-soft);
       padding: 14px;
@@ -302,12 +272,7 @@
       text-transform: none;
     }
 
-    /*****************************************************
-     * SIDEBAR – EXPERIENCE SETUP
-     *****************************************************/
-    .sidebar-section {
-      margin-top: 10px;
-    }
+    .sidebar-section { margin-top: 10px; }
 
     .sidebar-label {
       font-size: 10px;
@@ -360,10 +325,7 @@
       color: #bbf7d0;
     }
 
-    .status-pill svg {
-      width: 13px;
-      height: 13px;
-    }
+    .status-pill svg { width: 13px; height: 13px; }
 
     .sidebar-note {
       margin-top: 4px;
@@ -372,18 +334,7 @@
       line-height: 1.45;
     }
 
-    /*****************************************************
-     * CENTER – CHAT ONLY
-     *****************************************************/
-    .chat-panel {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .chat-header {
-      margin-bottom: 2px;
-    }
+    .chat-panel { display: flex; flex-direction: column; gap: 8px; }
 
     .chat-header-title {
       font-size: 13px;
@@ -410,9 +361,7 @@
       border: 1px solid rgba(15, 23, 42, 0.9);
     }
 
-    .message-group {
-      margin-bottom: 10px;
-    }
+    .message-group { margin-bottom: 10px; }
 
     .message-meta {
       font-size: 10px;
@@ -474,9 +423,7 @@
       outline: none;
     }
 
-    .chat-input::placeholder {
-      color: var(--text-soft);
-    }
+    .chat-input::placeholder { color: var(--text-soft); }
 
     .btn-send {
       padding: 7px 14px;
@@ -494,10 +441,7 @@
       white-space: nowrap;
     }
 
-    .btn-send svg {
-      width: 13px;
-      height: 13px;
-    }
+    .btn-send svg { width: 13px; height: 13px; }
 
     .chat-footnote {
       font-size: 10px;
@@ -513,14 +457,7 @@
       gap: 4px;
     }
 
-    /*****************************************************
-     * STORY CANVAS PANEL (RIGHT)
-     *****************************************************/
-    .canvas-panel {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+    .canvas-panel { display: flex; flex-direction: column; gap: 8px; }
 
     .canvas-header {
       display: flex;
@@ -556,10 +493,7 @@
       white-space: nowrap;
     }
 
-    .pill-ai-label svg {
-      width: 11px;
-      height: 11px;
-    }
+    .pill-ai-label svg { width: 11px; height: 11px; }
 
     .canvas-body {
       flex: 1;
@@ -629,15 +563,8 @@
       margin-bottom: 6px;
     }
 
-    .canvas-card-title {
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .canvas-card-sub {
-      font-size: 10px;
-      color: var(--text-soft);
-    }
+    .canvas-card-title { font-size: 12px; font-weight: 600; }
+    .canvas-card-sub { font-size: 10px; color: var(--text-soft); }
 
     .canvas-tag-row {
       display: flex;
@@ -677,9 +604,8 @@
       gap: 4px;
     }
 
-    /*****************************************************
-     * DASHBOARD MOCKUP
-     *****************************************************/
+    /* DASHBOARD MOCKUP */
+
     .dash-card {
       margin-top: 2px;
       padding: 8px;
@@ -694,33 +620,20 @@
     .dash-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       font-size: 11px;
       gap: 8px;
     }
 
-    .dash-header-left {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .dash-title {
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .dash-subtitle {
-      font-size: 10px;
-      color: var(--text-soft);
-    }
+    .dash-header-left { display: flex; flex-direction: column; gap: 2px; }
+    .dash-title { font-size: 12px; font-weight: 600; }
+    .dash-subtitle { font-size: 10px; color: var(--text-soft); }
 
     .dash-header-right {
       display: flex;
       gap: 6px;
       align-items: center;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+      flex-wrap: nowrap;
     }
 
     .dash-filter {
@@ -730,6 +643,7 @@
       font-size: 10px;
       background: rgba(4, 15, 39, 0.95);
       color: var(--text-soft);
+      white-space: nowrap;
     }
 
     .dash-body {
@@ -744,7 +658,6 @@
       border: 1px solid rgba(55, 65, 81, 0.9);
       background: radial-gradient(circle at top, rgba(22, 163, 74, 0.12), rgba(4, 15, 39, 0.9));
       padding: 6px;
-      position: relative;
       font-size: 9px;
       color: var(--text-soft);
     }
@@ -779,32 +692,11 @@
       gap: 6px;
     }
 
-    .kpi {
-      padding: 5px;
-      border-radius: 8px;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      background: rgba(4, 15, 39, 0.9);
-      font-size: 10px;
-    }
-
-    .kpi-label {
-      color: var(--text-soft);
-      margin-bottom: 2px;
-    }
-
-    .kpi-value {
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .kpi-trend {
-      font-size: 10px;
-      color: #bbf7d0;
-    }
-
-    .kpi-trend.down {
-      color: #fecaca;
-    }
+    .kpi { padding: 5px; border-radius: 8px; border: 1px solid rgba(55, 65, 81, 0.9); background: rgba(4, 15, 39, 0.9); font-size: 10px; }
+    .kpi-label { color: var(--text-soft); margin-bottom: 2px; }
+    .kpi-value { font-size: 13px; font-weight: 600; }
+    .kpi-trend { font-size: 10px; color: #bbf7d0; }
+    .kpi-trend.down { color: #fecaca; }
 
     .dash-chart {
       margin-top: 4px;
@@ -840,10 +732,7 @@
       margin-top: 2px;
     }
 
-    .chart-x-labels span {
-      font-size: 8px;
-      color: var(--text-soft);
-    }
+    .chart-x-labels span { font-size: 8px; color: var(--text-soft); }
 
     .dash-footer {
       display: flex;
@@ -852,22 +741,28 @@
       margin-top: 4px;
       font-size: 9px;
       color: var(--text-soft);
-      gap: 6px;
+      gap: 10px;
+      flex-wrap: nowrap;
+    }
+
+    .dash-footer span {
+      flex: 1;
+      min-width: 0;
     }
 
     .dash-export {
-      padding: 3px 7px;
+      padding: 3px 9px;
       border-radius: 999px;
       border: 1px solid rgba(148, 163, 184, 0.6);
       background: rgba(4, 15, 39, 0.95);
       cursor: pointer;
       font-size: 9px;
       white-space: nowrap;
+      align-self: flex-end;
     }
 
-    /*****************************************************
-     * ANIMATION PLAYER MOCKUP
-     *****************************************************/
+    /* VIDEO MOCKUP */
+
     .video-layout {
       display: grid;
       grid-template-columns: 1.05fr 1fr;
@@ -892,7 +787,7 @@
       position: relative;
       border-radius: 8px;
       background: linear-gradient(135deg, #0f172a, #0369a1);
-      height: 118px;
+      height: 120px;
       overflow: hidden;
     }
 
@@ -940,7 +835,7 @@
 
     .video-progress {
       height: 100%;
-      width: 30%;
+      width: 35%;
       background: linear-gradient(to right, var(--eu-yellow), #fb923c);
     }
 
@@ -957,14 +852,8 @@
       padding-left: 16px;
     }
 
-    .storyboard-list li {
-      margin-bottom: 2px;
-    }
-
-    .storyboard-list li.current {
-      color: #e5e7eb;
-      font-weight: 500;
-    }
+    .storyboard-list li { margin-bottom: 2px; }
+    .storyboard-list li.current { color: #e5e7eb; font-weight: 500; }
 
     .storyboard-controls {
       margin-top: 6px;
@@ -998,9 +887,8 @@
       color: var(--text-soft);
     }
 
-    /*****************************************************
-     * MAP WIDGET
-     *****************************************************/
+    /* MAP WIDGET – WITH REAL MAPS */
+
     .map-widget {
       margin-top: 4px;
       border-radius: 10px;
@@ -1008,34 +896,28 @@
       background: radial-gradient(circle at top, #022c22, #050f27);
       padding: 8px;
       display: grid;
-      grid-template-columns: 1.1fr 1fr;
+      grid-template-columns: 1.4fr 1fr;
       gap: 8px;
     }
 
     .map-viewport {
       position: relative;
       border-radius: 8px;
-      background: linear-gradient(145deg, #022c22, #020617);
+      background: #020617;
       overflow: hidden;
-      min-height: 150px;
+      min-height: 280px;
     }
 
-    .map-viewport::before {
-      content: "";
+    .map-frame {
       position: absolute;
-      inset: 10%;
-      border-radius: 40% 60% 55% 45%;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      opacity: 0.6;
+      inset: 0;
     }
 
-    .map-viewport::after {
-      content: "";
-      position: absolute;
-      inset: 24%;
-      border-radius: 45% 55% 50% 50%;
-      border: 1px dashed rgba(148, 163, 184, 0.5);
-      opacity: 0.5;
+    .map-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 8px;
     }
 
     .map-title-overlay {
@@ -1045,9 +927,35 @@
       padding: 3px 7px;
       font-size: 10px;
       border-radius: 999px;
-      background: rgba(4, 15, 39, 0.9);
+      background: rgba(4, 15, 39, 0.92);
       border: 1px solid rgba(148, 163, 184, 0.7);
       color: #e5e7eb;
+      z-index: 2;
+    }
+
+    .map-layer-pill {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      display: flex;
+      gap: 4px;
+      z-index: 2;
+    }
+
+    .map-layer-pill span {
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 9px;
+      background: rgba(4, 15, 39, 0.88);
+      color: #cbd5f5;
+      cursor: default;
+    }
+
+    .map-layer-pill span.active {
+      border-color: rgba(56, 189, 248, 0.9);
+      background: rgba(0, 68, 148, 0.9);
+      color: #e5f0ff;
     }
 
     .map-corridor {
@@ -1063,6 +971,7 @@
       align-items: center;
       gap: 4px;
       transition: 0.16s all ease-out;
+      z-index: 3;
     }
 
     .map-corridor::before {
@@ -1083,6 +992,34 @@
       background: linear-gradient(to right, var(--eu-blue), var(--eu-blue-dark));
     }
 
+    .map-badge-cluster {
+      position: absolute;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 23, 42, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #f9fafb;
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.5);
+      opacity: 0.96;
+      z-index: 3;
+    }
+
+    .map-badge-cluster--high {
+      background: radial-gradient(circle at 30% 20%, #fecaca, #b91c1c);
+    }
+
+    .map-badge-cluster--medium {
+      background: radial-gradient(circle at 30% 20%, #fed7aa, #c2410c);
+    }
+
+    .map-badge-cluster--low {
+      background: radial-gradient(circle at 30% 20%, #bbf7d0, #16a34a);
+    }
+
     .map-legend {
       position: absolute;
       right: 6px;
@@ -1093,6 +1030,7 @@
       border: 1px solid rgba(75, 85, 99, 0.9);
       font-size: 9px;
       color: #9ca3af;
+      z-index: 2;
     }
 
     .map-legend-row {
@@ -1109,15 +1047,23 @@
       box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.7);
     }
 
+    .map-legend-square {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: #22c55e;
+    }
+
+    .map-legend-square.high { background: #b91c1c; }
+    .map-legend-square.medium { background: #f97316; }
+
     .map-details {
       font-size: 11px;
       color: var(--text-muted);
       line-height: 1.5;
     }
 
-    .map-details strong {
-      color: #e5e7eb;
-    }
+    .map-details strong { color: #e5e7eb; }
 
     .map-metric-row {
       display: flex;
@@ -1135,9 +1081,38 @@
       background: rgba(4, 15, 39, 0.8);
     }
 
-    /*****************************************************
-     * SOCIAL MEDIA MOCKUP
-     *****************************************************/
+    .map-timeline {
+      margin-top: 8px;
+      font-size: 10px;
+      color: var(--text-soft);
+    }
+
+    .map-timeline-track {
+      margin-top: 4px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-timeline-fill {
+      position: absolute;
+      inset: 0;
+      width: 55%;
+      background: linear-gradient(to right, var(--eu-yellow), #fb923c);
+    }
+
+    .map-timeline-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2px;
+    }
+
+    .map-timeline-labels span { font-size: 9px; color: var(--text-soft); }
+
+    /* SOCIAL MOCKUP */
+
     .social-layout {
       display: grid;
       grid-template-columns: 1.1fr 1fr;
@@ -1175,15 +1150,8 @@
       color: #00113b;
     }
 
-    .social-name {
-      font-weight: 600;
-      font-size: 10px;
-    }
-
-    .social-handle {
-      font-size: 9px;
-      color: var(--text-soft);
-    }
+    .social-name { font-weight: 600; font-size: 10px; }
+    .social-handle { font-size: 9px; color: var(--text-soft); }
 
     .social-image {
       border-radius: 8px;
@@ -1231,9 +1199,7 @@
       gap: 4px;
     }
 
-    .tile-title {
-      font-weight: 600;
-    }
+    .tile-title { font-weight: 600; }
 
     .tile-tag {
       display: inline-block;
@@ -1244,16 +1210,8 @@
       color: var(--text-soft);
     }
 
-    /*****************************************************
-     * SCROLLBARS
-     *****************************************************/
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: rgba(4, 15, 39, 0.9);
-    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: rgba(4, 15, 39, 0.9); }
     ::-webkit-scrollbar-thumb {
       background: rgba(75, 85, 99, 0.8);
       border-radius: 999px;
@@ -1265,10 +1223,8 @@
 </head>
 <body>
   <div class="app-shell">
-    <!-- EU RIBBON -->
     <div class="header-ribbon"></div>
 
-    <!-- HEADER -->
     <header class="app-header">
       <div class="app-header-main">
         <div class="brand">
@@ -1312,9 +1268,8 @@
       </div>
     </header>
 
-    <!-- MAIN LAYOUT -->
     <main class="layout-main">
-      <!-- LEFT: EXPERIENCE SETUP (UNCHANGED) -->
+      <!-- LEFT: CONTROLS -->
       <section class="panel">
         <div class="panel-inner">
           <h2>
@@ -1387,13 +1342,13 @@
         </div>
       </section>
 
-      <!-- CENTER: CHAT ONLY (NO OUTPUT MOCKUPS) -->
+      <!-- CENTER: CHAT ONLY -->
       <section class="panel chat-panel">
         <div class="panel-inner">
           <div class="chat-header">
             <div class="chat-header-title">Conversational workspace</div>
             <div class="chat-header-sub">
-              Describe what you need. The assistant uses EU space data to configure the experience (dashboard, film, map, or social pack). The visual result appears on the right.
+              Describe what you need. The assistant uses EU space data and your setup (left) to define the experience. The visual result appears on the right.
             </div>
           </div>
 
@@ -1422,14 +1377,14 @@
         </div>
       </section>
 
-      <!-- RIGHT: STORY CANVAS – ONLY OUTPUT DEPENDING ON LEFT CONTROLS -->
+      <!-- RIGHT: STORY CANVAS -->
       <section class="panel canvas-panel">
         <div class="panel-inner">
           <div class="canvas-header">
             <div>
               <div class="canvas-title">Story canvas</div>
               <div class="canvas-sub">
-                Concrete example of the output currently configured on the left – dashboard, short film, immersive map or social pack.
+                Concrete example of the output configured on the left – dashboard, short film, immersive map or social pack.
               </div>
             </div>
             <div class="pill-ai-label">
@@ -1468,32 +1423,22 @@
   </div>
 
   <script>
-    /*****************************************************
-     * SIMPLE POLICY CONTEXT STRING
-     *****************************************************/
     const basePolicyIdeas =
       "Insight Engine is a joint EUSPA–EEAS AI storytelling platform that turns Copernicus, Galileo, EGNOS, GOVSATCOM and IRIS² data into multilingual narratives, visuals and communication products. " +
       "It is aligned with the AI Act, GDPR and data-sovereignty requirements, and uses green computing. " +
       "The objective is to strengthen EU foreign policy, strategic communication and downstream industry by making space-data visible, human-centred and democratic.";
 
-    /*****************************************************
-     * DOM REFERENCES
-     *****************************************************/
     const chatBody = document.getElementById("chatBody");
     const chatInput = document.getElementById("chatInput");
     const sendBtn = document.getElementById("sendBtn");
     const canvasContent = document.getElementById("canvasContent");
     const canvasScenarioSummary = document.getElementById("canvasScenarioSummary");
 
-    let activeTab = "dashboard"; // controlled by left-side Experience type
+    let activeTab = "dashboard";
 
-    /*****************************************************
-     * CHAT (TEXT ONLY, NO VISUAL OUTPUTS HERE)
-     *****************************************************/
     function appendMessage(author, text) {
       const group = document.createElement("div");
       group.className = "message-group";
-
       const meta = document.createElement("div");
       meta.className = "message-meta";
       const who = document.createElement("span");
@@ -1502,11 +1447,9 @@
       mode.textContent = author === "user" ? "Prompt" : "Prototype response";
       meta.appendChild(who);
       meta.appendChild(mode);
-
       const bubble = document.createElement("div");
       bubble.className = "message-bubble" + (author === "assistant" ? " assistant" : "");
       bubble.innerHTML = text;
-
       group.appendChild(meta);
       group.appendChild(bubble);
       chatBody.appendChild(group);
@@ -1525,8 +1468,8 @@
       );
       appendMessage(
         "assistant",
-        "Understood. Based on the current setup, the canvas displays an interactive dashboard mock-up for Amazon deforestation alerts. " +
-        "In a live system, this would be populated with real Copernicus data and export-ready assets for Delegations."
+        "Understood. With the current setup, the canvas displays an interactive Copernicus dashboard for Amazon deforestation alerts. " +
+        "Switch to Mozambique, Africa or Global, or change the experience type, to see diverse outputs: a Galileo film, an immersive corridor map, or a global daily social pack."
       );
     }
     initialMessages();
@@ -1543,21 +1486,13 @@
       const useCase = getActiveChipLabel("useCaseRow") || "Global · Daily EU impact";
       const programme = getActiveChipLabel("programmeFocusRow") || "Copernicus";
       const audience = getActiveChipLabel("audienceRow") || "EU Delegations";
-
       return (
         "<strong>Configured experience:</strong> " +
-        experience +
-        " · " +
-        useCase +
-        " · " +
-        programme +
-        " · " +
-        audience +
+        experience + " · " + useCase + " · " + programme + " · " + audience +
         "<br/><br/>" +
-        "The Story Canvas on the right reflects this configuration with a visual prototype (no real data yet). " +
-        "In an operational version, this output would be downloadable and localisable for Delegations, schools, journalists and citizens.<br/><br/>" +
-        "<strong>Policy backbone:</strong> " +
-        basePolicyIdeas
+        "The Story Canvas on the right now shows a visual example tailored to this scenario. " +
+        "In an operational system, it would be populated with live EU space data and export-ready formats for Delegations, schools, journalists and citizens.<br/><br/>" +
+        "<strong>Policy backbone:</strong> " + basePolicyIdeas
       );
     }
 
@@ -1579,9 +1514,6 @@
       }
     });
 
-    /*****************************************************
-     * CHIP SETUP (LEFT CONTROLS)
-     *****************************************************/
     function setupChipRow(id, onClickExtra) {
       const row = document.getElementById(id);
       if (!row) return;
@@ -1595,31 +1527,17 @@
       });
     }
 
-    function activateChip(rowId, startsWith) {
-      const row = document.getElementById(rowId);
-      if (!row) return;
-      [...row.querySelectorAll(".chip")].forEach((chip) => {
-        if (chip.textContent.trim().startsWith(startsWith)) chip.classList.add("chip-active");
-        else chip.classList.remove("chip-active");
-      });
-    }
-
-    // Experience row controls which output template is shown on the right
     setupChipRow("experienceRow", (label) => {
       if (label.startsWith("Interactive Dashboard")) activeTab = "dashboard";
       else if (label.startsWith("Animated Short Film")) activeTab = "animation";
       else if (label.startsWith("Immersive Map")) activeTab = "map";
       else if (label.startsWith("Social Media Pack")) activeTab = "social";
     });
-
     setupChipRow("useCaseRow");
     setupChipRow("programmeFocusRow");
     setupChipRow("audienceRow");
     setupChipRow("languageRow");
 
-    /*****************************************************
-     * LANGUAGE LABELS
-     *****************************************************/
     function getLabelForLanguage(key, lang) {
       const dict = {
         todayFromSpace: {
@@ -1641,9 +1559,14 @@
       return (dict[key] && dict[key][lang]) || dict[key]["EN"];
     }
 
-    /*****************************************************
-     * CANVAS RENDERERS
-     *****************************************************/
+    function classifyUseCase(useCase) {
+      if (!useCase) return "Global";
+      if (useCase.includes("Amazon")) return "Amazon";
+      if (useCase.includes("Mozambique")) return "Mozambique";
+      if (useCase.includes("Africa")) return "Africa";
+      return "Global";
+    }
+
     function updateScenarioSummary() {
       const exp = getActiveChipLabel("experienceRow") || "Dashboard";
       const useCase = getActiveChipLabel("useCaseRow") || "Global";
@@ -1653,62 +1576,77 @@
     }
 
     function renderDashboardTab(useCase, programme, audience, language) {
+      const type = classifyUseCase(useCase);
       const card = document.createElement("div");
       card.className = "canvas-card";
-      const isAmazon = useCase.includes("Amazon");
+
+      let titleSuffix, subtitle, kpi1Label, kpi1Value, kpi1Trend, kpi2Label, kpi2Value, kpi2Trend, mapTitle;
       const todayLabel = getLabelForLanguage("todayFromSpace", language);
+
+      if (type === "Amazon") {
+        titleSuffix = " · Amazon deforestation alerts";
+        subtitle = "Real-time forest-change alerts in the Amazon basin for EU Delegations.";
+        kpi1Label = "Active deforestation alerts"; kpi1Value = "128"; kpi1Trend = "+12 vs. yesterday";
+        kpi2Label = "Forest at risk"; kpi2Value = "3 240 km²"; kpi2Trend = "−5% vs. last week";
+        mapTitle = "Alert density map";
+      } else if (type === "Mozambique") {
+        titleSuffix = " · Cyclone impact & convoy routing";
+        subtitle = "Storm track, flooded areas and safe road segments for humanitarian convoys.";
+        kpi1Label = "Communities affected"; kpi1Value = "740k"; kpi1Trend = "+30k vs. initial estimate";
+        kpi2Label = "Accessible routes"; kpi2Value = "82%"; kpi2Trend = "↑ after clearance";
+        mapTitle = "Impact & access map";
+      } else if (type === "Africa") {
+        titleSuffix = " · Clean-energy corridor overview";
+        subtitle = "Sites and corridors identified for solar, wind and grid upgrades.";
+        kpi1Label = "Priority projects"; kpi1Value = "36"; kpi1Trend = "+4 this quarter";
+        kpi2Label = "Estimated CO₂ savings"; kpi2Value = "5.3 Mt/yr"; kpi2Trend = "↑ pipeline expanding";
+        mapTitle = "Corridor suitability map";
+      } else {
+        titleSuffix = " · Daily EU environmental indicators";
+        subtitle = "High-level overview of climate and environment indicators worldwide.";
+        kpi1Label = "Monitored regions"; kpi1Value = "112"; kpi1Trend = "+6 regions onboarded";
+        kpi2Label = "New alerts today"; kpi2Value = "54"; kpi2Trend = "stable vs. last week";
+        mapTitle = "Global hotspots";
+      }
 
       card.innerHTML =
         '<div class="canvas-card-header">' +
         '<div>' +
-        '<div class="canvas-card-title">Interactive dashboard' +
-        (isAmazon ? " · Amazon deforestation alerts" : "") +
+        '<div class="canvas-card-title">Interactive dashboard' + titleSuffix + "</div>" +
+        '<div class="canvas-card-sub">' + subtitle + "</div>" +
         "</div>" +
-        '<div class="canvas-card-sub">Embedded on EUSPA / EEAS portals and Delegation sites.</div>' +
-        "</div>" +
-        '<span class="canvas-card-sub">' +
-        programme +
-        "</span>" +
+        '<span class="canvas-card-sub">' + programme + "</span>" +
         "</div>";
 
       const dash = document.createElement("div");
       dash.className = "dash-card";
-
       dash.innerHTML =
         '<div class="dash-header">' +
         '<div class="dash-header-left">' +
-        '<div class="dash-title">' +
-        todayLabel +
-        "</div>" +
-        '<div class="dash-subtitle">' +
-        (isAmazon ? "Real-time deforestation alerts in the Amazon basin" : "Live environmental indicators") +
-        "</div>" +
+        '<div class="dash-title">' + todayLabel + "</div>" +
+        '<div class="dash-subtitle">' + subtitle + "</div>" +
         "</div>" +
         '<div class="dash-header-right">' +
         '<div class="dash-filter">Time: 24h ▾</div>' +
-        '<div class="dash-filter">Audience: ' +
-        audience +
-        "</div>" +
+        '<div class="dash-filter">Audience: ' + audience + "</div>" +
         "</div>" +
         "</div>" +
         '<div class="dash-body">' +
         '<div class="dash-map-mini">' +
-        '<div class="dash-map-header">' +
-        "<span>Alert density map</span>" +
-        "<span style='font-size:8px;'>High ▪ Medium ▪ Low</span>" +
-        "</div>" +
+        '<div class="dash-map-header"><span>' + mapTitle + "</span>" +
+        "<span style='font-size:8px;'>High ▪ Medium ▪ Low</span></div>" +
         '<div class="dash-map-grid" id="dashMapGrid"></div>' +
         "</div>" +
         '<div class="dash-kpis">' +
         '<div class="kpi">' +
-        '<div class="kpi-label">Active alerts</div>' +
-        '<div class="kpi-value">128</div>' +
-        '<div class="kpi-trend">+12 vs. yesterday</div>' +
+        '<div class="kpi-label">' + kpi1Label + "</div>" +
+        '<div class="kpi-value">' + kpi1Value + "</div>" +
+        '<div class="kpi-trend">' + kpi1Trend + "</div>" +
         "</div>" +
         '<div class="kpi">' +
-        '<div class="kpi-label">Area at risk</div>' +
-        '<div class="kpi-value">3 240 km²</div>' +
-        '<div class="kpi-trend down">−5% vs. last week</div>' +
+        '<div class="kpi-label">' + kpi2Label + "</div>" +
+        '<div class="kpi-value">' + kpi2Value + "</div>" +
+        '<div class="kpi-trend' + (kpi2Trend.startsWith("−") ? " down" : "") + "'>" + kpi2Trend + "</div>" +
         "</div>" +
         "</div>" +
         "</div>" +
@@ -1721,17 +1659,13 @@
         '<div class="chart-bar low" style="height:30%;"></div>' +
         '<div class="chart-bar" style="height:70%;"></div>' +
         '<div class="chart-bar" style="height:55%;"></div>' +
-        '</div>' +
+        "</div>" +
         '<div class="chart-x-labels">' +
         "<span>Day 1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>" +
         "</div>" +
         "</div>" +
         '<div class="dash-footer">' +
-        "<span>Data: " +
-        programme +
-        " (prototype). Captions and filters localised in " +
-        language +
-        ".</span>" +
+        "<span>Data: " + programme + " (prototype). Filters and captions localised in " + language + ".</span>" +
         '<button class="dash-export">Export snapshot</button>' +
         "</div>";
 
@@ -1739,19 +1673,24 @@
 
       const tags = document.createElement("div");
       tags.className = "canvas-tag-row";
-      ["Dashboard", programme, useCase, audience].forEach((label, idx) => {
+      [ "Dashboard", programme, useCase, audience ].forEach((label, idx) => {
         const t = document.createElement("span");
         t.className = "tag" + (idx < 2 ? " tag-accent" : "");
         t.textContent = label;
         tags.appendChild(t);
       });
       card.appendChild(tags);
-
       canvasContent.appendChild(card);
 
       const grid = card.querySelector("#dashMapGrid");
       if (grid) {
-        const pattern = ["high", "medium", "low", "medium", "high", "low"];
+        const pattern = type === "Amazon"
+          ? ["high","medium","low","medium","high","low"]
+          : type === "Mozambique"
+          ? ["medium","high","high","medium","low","medium"]
+          : type === "Africa"
+          ? ["low","medium","low","high","medium","low"]
+          : ["low","low","medium","medium","high","low"];
         for (let i = 0; i < 24; i++) {
           const cell = document.createElement("div");
           cell.className = "dash-cell " + pattern[i % pattern.length];
@@ -1761,19 +1700,65 @@
     }
 
     function renderAnimationTab(useCase, programme, audience, language) {
+      const type = classifyUseCase(useCase);
       const card = document.createElement("div");
       card.className = "canvas-card";
       const learnMoreLabel = getLabelForLanguage("learnMore", language);
 
+      let title, subtitle, overlay, scenes;
+      if (type === "Mozambique") {
+        title = "Animated short film · Humanitarian convoys after cyclone";
+        subtitle = "60–90s narrative on how satellites guide relief to communities in Mozambique.";
+        overlay = "Cyclone response · " + programme;
+        scenes = [
+          "Opening: satellite view of cyclone landfall over Mozambique.",
+          "Impact: flooded areas and damaged roads highlighted in colour.",
+          "Convoys: safe routes and staging hubs appear along the map.",
+          "EU support: EU and partner logos; space and civil protection cooperation.",
+          "Closing: “" + learnMoreLabel + "” + link to an EU crisis-response page."
+        ];
+      } else if (type === "Amazon") {
+        title = "Animated short film · Forests seen from space";
+        subtitle = "Short film for citizens and schools on Amazon deforestation monitoring.";
+        overlay = "Forest watch · " + programme;
+        scenes = [
+          "Opening: canopy view fades into satellite imagery.",
+          "Alerts: red tiles appear where forest loss is detected.",
+          "On the ground: rangers and communities use printed maps and apps.",
+          "EU story: support to monitoring and sustainable value chains.",
+          "Closing: “" + learnMoreLabel + "” + link to EU environmental programmes."
+        ];
+      } else if (type === "Africa") {
+        title = "Animated short film · Clean-energy corridors";
+        subtitle = "Explainer on how space data supports solar and grid planning in Africa.";
+        overlay = "Energy corridors · " + programme;
+        scenes = [
+          "Opening: lights of the continent at night, highlighting gaps.",
+          "Data layers: solar, wind and grid layers appear over the map.",
+          "Projects: key corridors and substations are highlighted.",
+          "Partnership: EU, African Union and partners appear as co-creators.",
+          "Closing: “" + learnMoreLabel + "” + link to an EU–Africa investment platform."
+        ];
+      } else {
+        title = "Animated short film · EU space for a safer planet";
+        subtitle = "Global overview for social media and events.";
+        overlay = "Global impact · EU space";
+        scenes = [
+          "Opening: Earth from orbit with EU satellites.",
+          "Scenes: quick cuts for forest, oceans, cities and crises.",
+          "Data to decisions: dashboards in Delegations and ministries.",
+          "Citizens: classrooms, journalists and start-ups using the insights.",
+          "Closing: “" + learnMoreLabel + "” + link to a central EU portal."
+        ];
+      }
+
       card.innerHTML =
         '<div class="canvas-card-header">' +
         '<div>' +
-        '<div class="canvas-card-title">Animated short film · Humanitarian convoys</div>' +
-        '<div class="canvas-card-sub">A 60–90s explainer embedded on EU or Delegation pages.</div>' +
+        '<div class="canvas-card-title">' + title + "</div>" +
+        '<div class="canvas-card-sub">' + subtitle + "</div>" +
         "</div>" +
-        '<span class="canvas-card-sub">' +
-        programme +
-        "</span>" +
+        '<span class="canvas-card-sub">' + programme + "</span>" +
         "</div>";
 
       const layout = document.createElement("div");
@@ -1784,32 +1769,23 @@
       player.innerHTML =
         '<div class="video-frame">' +
         '<div class="video-play-btn" title="Play"></div>' +
-        '<div class="video-caption-overlay">Cyclone response · ' +
-        programme +
-        "</div>" +
+        '<div class="video-caption-overlay">' + overlay + "</div>" +
         "</div>" +
         '<div class="video-timeline"><div class="video-progress"></div></div>' +
-        '<div class="video-meta"><span>0:12 / 1:10</span><span>Subtitles: ' +
-        language +
-        "</span></div>" +
-        "<div>Caption example: “Convoys use satellite-based navigation to reach isolated communities safely.”</div>";
+        '<div class="video-meta"><span>0:12 / 1:05</span><span>Subtitles: ' + language + "</span></div>" +
+        "<div>Caption example: “Satellites provide the overview; EU partners turn it into action on the ground.”</div>";
 
       const storyboard = document.createElement("div");
-      storyboard.innerHTML =
-        "<div style='font-size:11px;font-weight:600;margin-bottom:3px;'>Storyboard scenes</div>" +
-        "<ul class='storyboard-list'>" +
-        "<li data-step='1'>Opening: satellite view of the cyclone and affected region.</li>" +
-        "<li data-step='2'>Signal from space: satellites provide precise positioning and timing.</li>" +
-        "<li data-step='3'>Convoy coordination: safe routes and supply hubs appear on the map.</li>" +
-        "<li data-step='4'>EU role: EU and partner logos as overlays.</li>" +
-        "<li data-step='5'>Closing: “" +
-        learnMoreLabel +
-        "” + link to a data-rich EU page.</li>" +
-        "</ul>" +
+      let listHTML = "<div style='font-size:11px;font-weight:600;margin-bottom:3px;'>Storyboard scenes</div><ul class='storyboard-list'>";
+      scenes.forEach((s, i) => {
+        listHTML += "<li data-step='" + (i + 1) + "'>" + s + "</li>";
+      });
+      listHTML += "</ul>" +
         '<div class="storyboard-controls">' +
         '<button class="storyboard-btn">▶ Next scene</button>' +
-        '<span class="storyboard-step-indicator">Current scene: 1 / 5</span>' +
+        '<span class="storyboard-step-indicator">Current scene: 1 / ' + scenes.length + "</span>" +
         "</div>";
+      storyboard.innerHTML = listHTML;
 
       layout.appendChild(player);
       layout.appendChild(storyboard);
@@ -1817,19 +1793,13 @@
 
       const tags = document.createElement("div");
       tags.className = "canvas-tag-row";
-      [
-        "Animated film",
-        programme.includes("Galileo") ? "Galileo" : "Navigation services",
-        useCase,
-        audience,
-      ].forEach((label, idx) => {
+      ["Animated film", programme, useCase, audience].forEach((label, idx) => {
         const t = document.createElement("span");
         t.className = "tag" + (idx < 2 ? " tag-accent" : "");
         t.textContent = label;
         tags.appendChild(t);
       });
       card.appendChild(tags);
-
       canvasContent.appendChild(card);
 
       const list = card.querySelector(".storyboard-list");
@@ -1842,93 +1812,256 @@
           const step = Number(li.dataset.step);
           li.classList.toggle("current", step === currentStep);
         });
-        indicator.textContent = "Current scene: " + currentStep + " / 5";
+        indicator.textContent = "Current scene: " + currentStep + " / " + scenes.length;
       }
       updateStoryboardHighlight();
 
       btn.addEventListener("click", () => {
-        currentStep = currentStep === 5 ? 1 : currentStep + 1;
+        currentStep = currentStep === scenes.length ? 1 : currentStep + 1;
         updateStoryboardHighlight();
       });
     }
 
+    function getMapIframeSrc(type) {
+      // Simple OpenStreetMap embed URLs with approximate bounding boxes
+      if (type === "Amazon") {
+        // Northern Brazil / Amazon basin
+        return "https://www.openstreetmap.org/export/embed.html?bbox=-74.0%2C-12.0%2C-44.0%2C6.0&layer=mapnik";
+      }
+      if (type === "Mozambique") {
+        return "https://www.openstreetmap.org/export/embed.html?bbox=30.0%2C-25.5%2C42.0%2C-10.0&layer=mapnik";
+      }
+      if (type === "Africa") {
+        return "https://www.openstreetmap.org/export/embed.html?bbox=-20.0%2C-36.0%2C55.0%2C38.0&layer=mapnik";
+      }
+      // Global-ish
+      return "https://www.openstreetmap.org/export/embed.html?bbox=-180.0%2C-60.0%2C180.0%2C80.0&layer=mapnik";
+    }
+
     function renderMapTab(useCase, programme, audience, language) {
+      const type = classifyUseCase(useCase);
       const card = document.createElement("div");
       card.className = "canvas-card";
+
+      let title, subtitle, titleOverlay, layerLabels, corridorsData;
+      if (type === "Africa") {
+        title = "Immersive map · Africa clean-energy corridors";
+        subtitle = "Explorable corridors and projects for Delegations and partner briefings.";
+        titleOverlay = "Africa · Clean-energy corridors";
+        layerLabels = ["Solar", "Grid", "Projects"];
+        corridorsData = {
+          sahel: {
+            label: "Sahel corridor",
+            text: "Cross-border solar and transmission projects identified through solar resource and land-use layers.",
+            metrics: ["≈ 2.5M people reached", "≈ 1.2 MtCO₂ avoided / year", "EU support: grants + blending"],
+            pos: {top: "38%", left: "30%"},
+            cluster: {top: "30%", left: "34%", type: "high", value: "H"}
+          },
+          east: {
+            label: "East Africa grid",
+            text: "Interconnectors mapped with satellite-derived demand, terrain and climate risk.",
+            metrics: ["≈ 3.1M people reached", "≈ 1.8 MtCO₂ avoided / year", "EU support: technical assistance"],
+            pos: {top: "55%", left: "55%"},
+            cluster: {top: "50%", left: "58%", type: "medium", value: "M"}
+          },
+          south: {
+            label: "Southern solar belt",
+            text: "Utility-scale solar sites screened for suitability and environmental constraints.",
+            metrics: ["≈ 4.0M people reached", "≈ 2.3 MtCO₂ avoided / year", "EU support: guarantees + investment"],
+            pos: {top: "70%", left: "44%"},
+            cluster: {top: "68%", left: "48%", type: "low", value: "L"}
+          }
+        };
+      } else if (type === "Mozambique") {
+        title = "Immersive map · Cyclone impact and access in Mozambique";
+        subtitle = "Impact footprint and access constraints after a major cyclone, for crisis coordination.";
+        titleOverlay = "Mozambique · Cyclone response";
+        layerLabels = ["Flood", "Access", "Shelters"];
+        corridorsData = {
+          impact: {
+            label: "Impact zone",
+            text: "Flooded districts with population estimates and critical infrastructure.",
+            metrics: ["≈ 740k people affected", "Critical bridges: 7", "Shelters mapped: 52"],
+            pos: {top: "40%", left: "50%"},
+            cluster: {top: "36%", left: "53%", type: "high", value: "H"}
+          },
+          convoys: {
+            label: "Convoy routes",
+            text: "Safe road segments and backup routes based on flood and landslide data.",
+            metrics: ["Main corridors: 5", "Access restored: 82%", "Data refresh: 3h"],
+            pos: {top: "60%", left: "40%"},
+            cluster: {top: "58%", left: "43%", type: "medium", value: "M"}
+          },
+          hubs: {
+            label: "Logistics hubs",
+            text: "Airstrips and warehouses used to pre-position relief supplies.",
+            metrics: ["Strategic hubs: 9", "Reachable districts: 32", "Partners: EU, UN, local"],
+            pos: {top: "55%", left: "25%"},
+            cluster: {top: "52%", left: "29%", type: "low", value: "L"}
+          }
+        };
+      } else if (type === "Amazon") {
+        title = "Immersive map · Amazon forest watch";
+        subtitle = "Interactive view of forest alerts, protected areas and EU-supported initiatives.";
+        titleOverlay = "Amazon · Forest alerts";
+        layerLabels = ["Forest loss", "Protected areas", "Projects"];
+        corridorsData = {
+          hot: {
+            label: "Alert hotspots",
+            text: "Clusters of recent deforestation alerts along key fronts.",
+            metrics: ["Active hotspots: 12", "Average alert age: 14h", "Priority follow-up: high"],
+            pos: {top: "42%", left: "35%"},
+            cluster: {top: "38%", left: "39%", type: "high", value: "H"}
+          },
+          protected: {
+            label: "Protected areas",
+            text: "Overlap of alerts with indigenous and protected territories.",
+            metrics: ["Protected areas affected: 4", "Alerts in buffer zones: 22", "Legal follow-up: required"],
+            pos: {top: "55%", left: "55%"},
+            cluster: {top: "51%", left: "58%", type: "medium", value: "M"}
+          },
+          projects: {
+            label: "EU-supported projects",
+            text: "Monitoring and sustainable value chain projects using this data.",
+            metrics: ["Projects mapped: 11", "Partner organisations: 18", "Downloadable project sheets"],
+            pos: {top: "68%", left: "45%"},
+            cluster: {top: "66%", left: "49%", type: "low", value: "L"}
+          }
+        };
+      } else {
+        title = "Immersive map · Global daily EU impact";
+        subtitle = "Map of selected environmental and security contributions from EU space data.";
+        titleOverlay = "Global · Daily impact";
+        layerLabels = ["Climate", "Crises", "Connectivity"];
+        corridorsData = {
+          climate: {
+            label: "Climate & environment",
+            text: "Examples of climate monitoring products used in national policies.",
+            metrics: ["Countries featured: 14", "New stories today: 3", "Sectors: forests, coasts, cities"],
+            pos: {top: "40%", left: "35%"},
+            cluster: {top: "35%", left: "39%", type: "medium", value: "M"}
+          },
+          crises: {
+            label: "Crisis response",
+            text: "Rapid mapping for natural disasters and humanitarian crises.",
+            metrics: ["Ongoing activations: 5", "Completed this month: 18", "Regional coverage: global"],
+            pos: {top: "50%", left: "55%"},
+            cluster: {top: "47%", left: "59%", type: "high", value: "H"}
+          },
+          connectivity: {
+            label: "Connectivity & security",
+            text: "Secure communication and navigation services supporting operations.",
+            metrics: ["Satcom-supported ops: 9", "Navigation-focused: 7", "Partners: EU agencies + Member States"],
+            pos: {top: "62%", left: "45%"},
+            cluster: {top: "60%", left: "49%", type: "low", value: "L"}
+          }
+        };
+      }
 
       card.innerHTML =
         '<div class="canvas-card-header">' +
         '<div>' +
-        '<div class="canvas-card-title">Immersive map · Clean-energy corridors</div>' +
-        '<div class="canvas-card-sub">Explorable map for Delegations and partner briefings.</div>' +
+        '<div class="canvas-card-title">' + title + "</div>" +
+        '<div class="canvas-card-sub">' + subtitle + "</div>" +
         "</div>" +
-        '<span class="canvas-card-sub">' +
-        programme +
-        "</span>" +
+        '<span class="canvas-card-sub">' + programme + "</span>" +
         "</div>";
 
       const mapWidget = document.createElement("div");
       mapWidget.className = "map-widget";
-      mapWidget.innerHTML =
-        '<div class="map-viewport">' +
-        '<div class="map-title-overlay">Africa · Clean-energy corridors</div>' +
-        '<div class="map-corridor" data-id="sahel" style="top:40%;left:28%;">Sahel corridor</div>' +
-        '<div class="map-corridor" data-id="east" style="top:55%;left:52%;">East Africa grid</div>' +
-        '<div class="map-corridor" data-id="south" style="top:68%;left:42%;">Southern solar belt</div>' +
-        '<div class="map-legend">' +
-        '<div class="map-legend-row"><span class="map-legend-dot"></span> Clean-energy corridor</div>' +
-        "</div>" +
-        "</div>" +
-        '<div class="map-details"></div>';
+
+      const viewport = document.createElement("div");
+      viewport.className = "map-viewport";
+
+      const frame = document.createElement("div");
+      frame.className = "map-frame";
+      const iframe = document.createElement("iframe");
+      iframe.src = getMapIframeSrc(type);
+      iframe.loading = "lazy";
+      frame.appendChild(iframe);
+      viewport.appendChild(frame);
+
+      const titleOverlayEl = document.createElement("div");
+      titleOverlayEl.className = "map-title-overlay";
+      titleOverlayEl.textContent = titleOverlay;
+      viewport.appendChild(titleOverlayEl);
+
+      const layerPills = document.createElement("div");
+      layerPills.className = "map-layer-pill";
+      layerLabels.forEach((label, i) => {
+        const span = document.createElement("span");
+        span.textContent = label;
+        if (i === 0) span.classList.add("active");
+        layerPills.appendChild(span);
+      });
+      viewport.appendChild(layerPills);
+
+      const legend = document.createElement("div");
+      legend.className = "map-legend";
+      legend.innerHTML =
+        '<div class="map-legend-row"><span class="map-legend-dot"></span> Corridor / focus zone</div>' +
+        '<div class="map-legend-row" style="margin-top:2px;">' +
+        '<span class="map-legend-square high"></span> High intensity&nbsp;&nbsp;' +
+        '<span class="map-legend-square medium"></span> Medium&nbsp;&nbsp;' +
+        '<span class="map-legend-square"></span> Low' +
+        "</div>";
+      viewport.appendChild(legend);
+
+      const details = document.createElement("div");
+      details.className = "map-details";
+
+      Object.keys(corridorsData).forEach((id) => {
+        const c = corridorsData[id];
+
+        const corridorEl = document.createElement("div");
+        corridorEl.className = "map-corridor";
+        corridorEl.setAttribute("data-id", id);
+        corridorEl.style.top = c.pos.top;
+        corridorEl.style.left = c.pos.left;
+        corridorEl.textContent = c.label;
+        viewport.appendChild(corridorEl);
+
+        if (c.cluster) {
+          const cluster = document.createElement("div");
+          cluster.className = "map-badge-cluster map-badge-cluster--" + c.cluster.type;
+          cluster.style.top = c.cluster.top;
+          cluster.style.left = c.cluster.left;
+          cluster.textContent = c.cluster.value;
+          viewport.appendChild(cluster);
+        }
+      });
+
+      mapWidget.appendChild(viewport);
+      mapWidget.appendChild(details);
+
+      const timeline = document.createElement("div");
+      timeline.className = "map-timeline";
+      timeline.innerHTML =
+        "<div>Time filter (prototype)</div>" +
+        '<div class="map-timeline-track"><div class="map-timeline-fill"></div></div>' +
+        '<div class="map-timeline-labels"><span>Last 7 days</span><span>Last 24 hours</span></div>';
+      mapWidget.appendChild(timeline);
 
       card.appendChild(mapWidget);
 
       const tags = document.createElement("div");
       tags.className = "canvas-tag-row";
-      ["Immersive map", "Africa", programme, audience].forEach((label, idx) => {
+      ["Immersive map", programme, useCase, audience].forEach((label, idx) => {
         const t = document.createElement("span");
         t.className = "tag" + (idx < 2 ? " tag-accent" : "");
         t.textContent = label;
         tags.appendChild(t);
       });
       card.appendChild(tags);
-
       canvasContent.appendChild(card);
 
       const corridors = card.querySelectorAll(".map-corridor");
-      const details = card.querySelector(".map-details");
-
-      const corridorData = {
-        sahel: {
-          title: "Sahel corridor",
-          text:
-            "Cross-border solar and transmission projects in the Sahel, supported by space-based land-use and climate-risk screening.",
-          metrics: ["≈ 2.5M people reached", "≈ 1.2 MtCO₂ avoided / year", "EU support: grants + blending"],
-        },
-        east: {
-          title: "East Africa grid",
-          text:
-            "Transmission lines and interconnectors mapped with satellite-derived demand, infrastructure and environmental constraints.",
-          metrics: ["≈ 3.1M people reached", "≈ 1.8 MtCO₂ avoided / year", "EU support: technical assistance"],
-        },
-        south: {
-          title: "Southern solar belt",
-          text:
-            "Utility-scale solar parks and grid upgrades informed by Copernicus solar resource and land-suitability layers.",
-          metrics: ["≈ 4.0M people reached", "≈ 2.3 MtCO₂ avoided / year", "EU support: guarantees + investment"],
-        },
-      };
 
       function setActiveCorridor(id) {
         corridors.forEach((c) => c.classList.toggle("active", c.getAttribute("data-id") === id));
-        const data = corridorData[id];
+        const data = corridorsData[id];
         if (!data) return;
-        let html =
-          "<strong>Selected corridor:</strong> " +
-          data.title +
-          "<br/>" +
-          data.text +
-          '<div class="map-metric-row">';
+        let html = "<strong>" + data.label + ":</strong> " + data.text + '<div class="map-metric-row">';
         data.metrics.forEach((m) => {
           html += '<div class="map-metric-pill">' + m + "</div>";
         });
@@ -1940,24 +2073,55 @@
         c.addEventListener("click", () => setActiveCorridor(c.getAttribute("data-id")));
       });
 
-      setActiveCorridor("sahel");
+      setActiveCorridor(Object.keys(corridorsData)[0]);
     }
 
     function renderSocialTab(useCase, programme, audience, language) {
+      const type = classifyUseCase(useCase);
       const card = document.createElement("div");
       card.className = "canvas-card";
+
       const todayLabel = getLabelForLanguage("todayFromSpace", language);
       const poweredLabel = getLabelForLanguage("poweredByEU", language);
+
+      let postText, imageLabel, tile1, tile2, tile3, tile4;
+      if (type === "Amazon") {
+        postText = todayLabel + ": satellite data show a rise in deforestation alerts in the Amazon. EU-supported projects help protect forests and communities.";
+        imageLabel = "Amazon alerts · " + programme;
+        tile1 = { title: "How EU space sees the forest", body: "Copernicus monitors forest cover and flags sudden changes for authorities.", tag: "Explainer" };
+        tile2 = { title: "Why this matters locally", body: "Deforestation affects rainfall, soil and livelihoods. Local partners use this data for action.", tag: "Impact" };
+        tile3 = { title: "EU in your region", body: "Delegations can add local examples and links to EU-supported projects.", tag: "Delegation" };
+        tile4 = { title: "For classrooms", body: "Teachers can switch to a simplified classroom story with activities.", tag: "Education" };
+      } else if (type === "Mozambique") {
+        postText = todayLabel + ": satellite images help track flooding in Mozambique and guide humanitarian convoys to isolated communities.";
+        imageLabel = "Cyclone impact · " + programme;
+        tile1 = { title: "From orbit to road", body: "Satellites show where roads are passable so convoys can move safely.", tag: "Crisis" };
+        tile2 = { title: "Working with local teams", body: "EU missions share these maps with national services and NGOs.", tag: "Partnership" };
+        tile3 = { title: "Rapid updates", body: "Maps are refreshed every few hours, keeping responders informed.", tag: "Timeliness" };
+        tile4 = { title: "Human stories", body: "Posts can include short testimonies from affected communities.", tag: "Story" };
+      } else if (type === "Africa") {
+        postText = todayLabel + ": EU space data supports new clean-energy corridors across Africa, from solar parks to stronger grids.";
+        imageLabel = "Energy corridors · " + programme;
+        tile1 = { title: "Mapping the sun", body: "Solar potential maps show where projects can have the highest impact.", tag: "Solar" };
+        tile2 = { title: "Connecting people", body: "Corridors bring reliable power to homes, schools and clinics.", tag: "Access" };
+        tile3 = { title: "Joint investment", body: "EU and African partners co-design and co-finance key projects.", tag: "Investment" };
+        tile4 = { title: "Climate benefits", body: "Projects reduce emissions and support resilience to heat and drought.", tag: "Climate" };
+      } else {
+        postText = todayLabel + ": from flood alerts to air-quality maps, EU space data supports decisions worldwide every day.";
+        imageLabel = "Daily impact · EU space";
+        tile1 = { title: "Data in your city", body: "Local governments use EU space data for planning and resilience.", tag: "City" };
+        tile2 = { title: "For journalists", body: "Visuals and data can be downloaded with clear source labels.", tag: "Media" };
+        tile3 = { title: "For schools", body: "Teachers can turn complex datasets into simple classroom stories.", tag: "Education" };
+        tile4 = { title: "For start-ups", body: "Entrepreneurs can build services on top of open EU data.", tag: "Innovation" };
+      }
 
       card.innerHTML =
         '<div class="canvas-card-header">' +
         '<div>' +
-        '<div class="canvas-card-title">Social-media pack · Daily EU contributions</div>' +
+        '<div class="canvas-card-title">Social-media pack · ' + type + ' focus</div>' +
         '<div class="canvas-card-sub">Ready-to-use posts and tiles for Delegations, media and schools.</div>' +
         "</div>" +
-        '<span class="canvas-card-sub">' +
-        programme +
-        "</span>" +
+        '<span class="canvas-card-sub">' + programme + "</span>" +
         "</div>";
 
       const layout = document.createElement("div");
@@ -1973,45 +2137,26 @@
         '<div class="social-handle">@EU_Space • 6 min</div>' +
         "</div>" +
         "</div>" +
-        "<div>" +
-        todayLabel +
-        ": satellite data show a rise in deforestation alerts in the Amazon. EU-supported projects help protect forests and communities." +
-        "</div>" +
+        "<div>" + postText + "</div>" +
         '<div class="social-image">' +
-        '<div class="social-image-label">' +
-        poweredLabel +
-        "</div>" +
+        '<div class="social-image-label">' + poweredLabel + "</div>" +
         "</div>" +
         '<div class="social-footer">' +
-        "<span>Data: " +
-        programme +
-        " (prototype)</span>" +
+        "<span>" + imageLabel + "</span>" +
         "<span>♡ 124 · ⤴ 32</span>" +
         "</div>";
 
       const tiles = document.createElement("div");
       tiles.className = "social-tiles-grid";
-      tiles.innerHTML =
-        '<div class="social-tile">' +
-        '<div class="tile-title">How EU space sees the forest</div>' +
-        "<div>Copernicus monitors forest cover and flags sudden changes for authorities.</div>" +
-        '<span class="tile-tag">Explainer</span>' +
-        "</div>" +
-        '<div class="social-tile">' +
-        '<div class="tile-title">Why this matters locally</div>' +
-        "<div>Deforestation affects rainfall, soil and livelihoods. Local partners use this data for action.</div>" +
-        '<span class="tile-tag">Impact</span>' +
-        "</div>" +
-        '<div class="social-tile">' +
-        '<div class="tile-title">EU in your region</div>' +
-        "<div>Delegations can add local examples and links to EU-supported projects.</div>" +
-        '<span class="tile-tag">Delegation</span>' +
-        "</div>" +
-        '<div class="social-tile">' +
-        '<div class="tile-title">For classrooms</div>' +
-        "<div>Teachers can switch to a simplified classroom version with activities.</div>" +
-        '<span class="tile-tag">Education</span>' +
-        "</div>";
+      [tile1, tile2, tile3, tile4].forEach((tile) => {
+        const t = document.createElement("div");
+        t.className = "social-tile";
+        t.innerHTML =
+          '<div class="tile-title">' + tile.title + "</div>" +
+          "<div>" + tile.body + "</div>" +
+          '<span class="tile-tag">' + tile.tag + "</span>";
+        tiles.appendChild(t);
+      });
 
       layout.appendChild(post);
       layout.appendChild(tiles);
@@ -2019,14 +2164,13 @@
 
       const tags = document.createElement("div");
       tags.className = "canvas-tag-row";
-      ["Social pack", "Daily impact", programme, audience].forEach((label, idx) => {
+      ["Social pack", type + " focus", programme, audience].forEach((label, idx) => {
         const t = document.createElement("span");
         t.className = "tag" + (idx < 2 ? " tag-accent" : "");
         t.textContent = label;
         tags.appendChild(t);
       });
       card.appendChild(tags);
-
       canvasContent.appendChild(card);
     }
 
@@ -2050,7 +2194,6 @@
       }
     }
 
-    // Initial render
     updateCanvas();
   </script>
 </body>
