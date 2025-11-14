@@ -958,67 +958,68 @@
       color: #e5f0ff;
     }
 
-    .map-corridor {
-      position: absolute;
-      padding: 3px 6px;
-      border-radius: 999px;
-      border: 1px solid rgba(56, 189, 248, 0.9);
-      background: rgba(0, 68, 148, 0.92);
-      color: #dbeafe;
-      font-size: 10px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: 0.16s all ease-out;
-      z-index: 3;
-    }
+.map-corridor {
+  position: absolute;
+  padding: 3px 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 189, 248, 0.9);
+  background: rgba(0, 68, 148, 0.92);
+  color: #dbeafe;
+  font-size: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: 0.16s all ease-out;
+  z-index: 3; /* <-- corridor labels now ABOVE the circles */
+}
 
-    .map-corridor::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: var(--eu-yellow);
-    }
+.map-corridor::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--eu-yellow);
+}
 
-    .map-corridor:hover {
-      transform: translateY(-1px) scale(1.02);
-      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.7);
-    }
+.map-corridor:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.7);
+}
 
-    .map-corridor.active {
-      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.9);
-      background: linear-gradient(to right, var(--eu-blue), var(--eu-blue-dark));
-    }
+.map-corridor.active {
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.9);
+  background: linear-gradient(to right, var(--eu-blue), var(--eu-blue-dark));
+}
 
-    .map-badge-cluster {
-      position: absolute;
-      width: 42px;
-      height: 42px;
-      border-radius: 999px;
-      border: 1px solid rgba(15, 23, 42, 0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      color: #f9fafb;
-      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.5);
-      opacity: 0.96;
-      z-index: 3;
-    }
+/* Make the cluster balls slightly smaller and under the labels */
+.map-badge-cluster {
+  position: absolute;
+  width: 34px;           /* was 42px */
+  height: 34px;          /* was 42px */
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;        /* was 10px */
+  color: #f9fafb;
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.5);
+  opacity: 0.96;
+  z-index: 2;            /* BELOW the corridor labels now */
+}
 
-    .map-badge-cluster--high {
-      background: radial-gradient(circle at 30% 20%, #fecaca, #b91c1c);
-    }
+.map-badge-cluster--high {
+  background: radial-gradient(circle at 30% 20%, #fecaca, #b91c1c);
+}
 
-    .map-badge-cluster--medium {
-      background: radial-gradient(circle at 30% 20%, #fed7aa, #c2410c);
-    }
+.map-badge-cluster--medium {
+  background: radial-gradient(circle at 30% 20%, #fed7aa, #c2410c);
+}
 
-    .map-badge-cluster--low {
-      background: radial-gradient(circle at 30% 20%, #bbf7d0, #16a34a);
-    }
+.map-badge-cluster--low {
+  background: radial-gradient(circle at 30% 20%, #bbf7d0, #16a34a);
+}
 
     .map-legend {
       position: absolute;
