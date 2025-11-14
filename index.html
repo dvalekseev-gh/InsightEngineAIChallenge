@@ -244,7 +244,7 @@
     .layout-main {
       flex: 1;
       display: grid;
-      grid-template-columns: 270px 1.25fr 1.1fr;
+      grid-template-columns: 270px 1fr 1.15fr;
       gap: 12px;
       padding: 12px;
       max-height: calc(100vh - 84px);
@@ -373,18 +373,15 @@
     }
 
     /*****************************************************
-     * CHAT PANEL
+     * CENTER – CHAT ONLY
      *****************************************************/
     .chat-panel {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
     .chat-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
       margin-bottom: 2px;
     }
 
@@ -398,38 +395,7 @@
     .chat-header-sub {
       font-size: 11px;
       color: var(--text-soft);
-      max-width: 540px;
-      margin-top: 3px;
-    }
-
-    .chat-quick-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 6px;
-    }
-
-    .quick-btn {
-      padding: 5px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border-subtle);
-      font-size: 11px;
-      background: rgba(4, 15, 39, 0.94);
-      color: var(--text-soft);
-      cursor: pointer;
-      transition: 0.16s all ease-out;
-    }
-
-    .quick-btn:hover {
-      border-color: var(--border-strong);
-      transform: translateY(-1px);
-    }
-
-    .quick-btn-primary {
-      background: linear-gradient(to right, var(--eu-blue), var(--eu-blue-dark));
-      color: #f9fafb;
-      border-color: transparent;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+      margin-top: 4px;
     }
 
     .chat-body {
@@ -548,12 +514,12 @@
     }
 
     /*****************************************************
-     * STORY CANVAS PANEL
+     * STORY CANVAS PANEL (RIGHT)
      *****************************************************/
     .canvas-panel {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
     .canvas-header {
@@ -593,31 +559,6 @@
     .pill-ai-label svg {
       width: 11px;
       height: 11px;
-    }
-
-    .tabs-row {
-      display: flex;
-      gap: 6px;
-      margin-top: 8px;
-    }
-
-    .tab-btn {
-      padding: 5px 10px;
-      font-size: 11px;
-      border-radius: 999px;
-      border: 1px solid var(--border-subtle);
-      background: rgba(4, 15, 39, 0.94);
-      color: var(--text-soft);
-      cursor: pointer;
-      transition: 0.16s all ease-out;
-      white-space: nowrap;
-    }
-
-    .tab-btn.tab-active {
-      background: var(--accent-soft-strong);
-      border-color: rgba(0, 68, 148, 0.95);
-      color: #f1f5f9;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.9);
     }
 
     .canvas-body {
@@ -1373,7 +1314,7 @@
 
     <!-- MAIN LAYOUT -->
     <main class="layout-main">
-      <!-- LEFT: EXPERIENCE SETUP -->
+      <!-- LEFT: EXPERIENCE SETUP (UNCHANGED) -->
       <section class="panel">
         <div class="panel-inner">
           <h2>
@@ -1446,29 +1387,13 @@
         </div>
       </section>
 
-      <!-- CENTER: CHAT -->
+      <!-- CENTER: CHAT ONLY (NO OUTPUT MOCKUPS) -->
       <section class="panel chat-panel">
         <div class="panel-inner">
           <div class="chat-header">
-            <div>
-              <div class="chat-header-title">Conversational workspace</div>
-              <div class="chat-header-sub">
-                Ask for dashboards, short films, immersive maps or social packs, and the assistant will generate communication-ready blueprints from EU space data.
-              </div>
-              <div class="chat-quick-row">
-                <button class="quick-btn quick-btn-primary" id="qbDashboard">
-                  Dashboard: Amazon deforestation
-                </button>
-                <button class="quick-btn" id="qbAnimation">
-                  Film: Galileo convoys
-                </button>
-                <button class="quick-btn" id="qbMap">
-                  Map: energy corridors in Africa
-                </button>
-                <button class="quick-btn" id="qbSocial">
-                  Social pack: today’s EU impact
-                </button>
-              </div>
+            <div class="chat-header-title">Conversational workspace</div>
+            <div class="chat-header-sub">
+              Describe what you need. The assistant uses EU space data to configure the experience (dashboard, film, map, or social pack). The visual result appears on the right.
             </div>
           </div>
 
@@ -1497,20 +1422,14 @@
         </div>
       </section>
 
-      <!-- RIGHT: STORY CANVAS -->
+      <!-- RIGHT: STORY CANVAS – ONLY OUTPUT DEPENDING ON LEFT CONTROLS -->
       <section class="panel canvas-panel">
         <div class="panel-inner">
           <div class="canvas-header">
             <div>
               <div class="canvas-title">Story canvas</div>
               <div class="canvas-sub">
-                Visual prototypes of the Insight Engine outputs – dashboard, film, map and social cards – adapting to your setup.
-              </div>
-              <div class="tabs-row" id="tabsRow">
-                <button class="tab-btn tab-active" data-tab="dashboard">Dashboard</button>
-                <button class="tab-btn" data-tab="animation">Animated film</button>
-                <button class="tab-btn" data-tab="map">Immersive map</button>
-                <button class="tab-btn" data-tab="social">Social pack</button>
+                Concrete example of the output currently configured on the left – dashboard, short film, immersive map or social pack.
               </div>
             </div>
             <div class="pill-ai-label">
@@ -1539,7 +1458,7 @@
             <div class="canvas-scroll" id="canvasContent"></div>
 
             <div class="hint-bar">
-              <span>Adjust the setup on the left or use quick prompts – the mock output adapts immediately.</span>
+              <span>Change the experience type, region or audience on the left – this preview updates automatically.</span>
               <span>Designed for web, briefings and Delegation sites.</span>
             </div>
           </div>
@@ -1563,14 +1482,13 @@
     const chatBody = document.getElementById("chatBody");
     const chatInput = document.getElementById("chatInput");
     const sendBtn = document.getElementById("sendBtn");
-    const tabsRow = document.getElementById("tabsRow");
     const canvasContent = document.getElementById("canvasContent");
     const canvasScenarioSummary = document.getElementById("canvasScenarioSummary");
 
-    let activeTab = "dashboard";
+    let activeTab = "dashboard"; // controlled by left-side Experience type
 
     /*****************************************************
-     * CHAT
+     * CHAT (TEXT ONLY, NO VISUAL OUTPUTS HERE)
      *****************************************************/
     function appendMessage(author, text) {
       const group = document.createElement("div");
@@ -1598,15 +1516,17 @@
     function initialMessages() {
       appendMessage(
         "assistant",
-        "<strong>Welcome.</strong> This prototype shows how the Insight Engine can turn EU space data into four types of outputs: <em>dashboards, short films, immersive maps and social-media packs</em>."
+        "<strong>Welcome.</strong> Use the controls on the left to choose a format (dashboard, film, map, social pack), region and audience. " +
+        "Then describe your needs in natural language – the Story Canvas on the right shows a concrete example of the configured output."
       );
       appendMessage(
         "user",
-        "Use the policy brief and speech to demonstrate concrete outputs of the Insight Engine for Delegations and partners."
+        "Show how the Insight Engine could present Copernicus deforestation alerts in the Amazon for EU Delegations."
       );
       appendMessage(
         "assistant",
-        "Understood. Use the left-hand setup or quick prompts. The Story Canvas presents an example dashboard, film player, map or social card layout based on your selections."
+        "Understood. Based on the current setup, the canvas displays an interactive dashboard mock-up for Amazon deforestation alerts. " +
+        "In a live system, this would be populated with real Copernicus data and export-ready assets for Delegations."
       );
     }
     initialMessages();
@@ -1634,7 +1554,8 @@
         " · " +
         audience +
         "<br/><br/>" +
-        "The canvas on the right now displays a concrete mock-up in this format. In a live system, it would be populated with real EU space data and exportable for Delegations, schools, journalists and citizens.<br/><br/>" +
+        "The Story Canvas on the right reflects this configuration with a visual prototype (no real data yet). " +
+        "In an operational version, this output would be downloadable and localisable for Delegations, schools, journalists and citizens.<br/><br/>" +
         "<strong>Policy backbone:</strong> " +
         basePolicyIdeas
       );
@@ -1659,7 +1580,7 @@
     });
 
     /*****************************************************
-     * CHIP SETUP
+     * CHIP SETUP (LEFT CONTROLS)
      *****************************************************/
     function setupChipRow(id, onClickExtra) {
       const row = document.getElementById(id);
@@ -1683,85 +1604,21 @@
       });
     }
 
-    function activateTab(tabName) {
-      activeTab = tabName;
-      [...tabsRow.querySelectorAll(".tab-btn")].forEach((t) =>
-        t.classList.toggle("tab-active", t.dataset.tab === tabName)
-      );
-    }
+    // Experience row controls which output template is shown on the right
+    setupChipRow("experienceRow", (label) => {
+      if (label.startsWith("Interactive Dashboard")) activeTab = "dashboard";
+      else if (label.startsWith("Animated Short Film")) activeTab = "animation";
+      else if (label.startsWith("Immersive Map")) activeTab = "map";
+      else if (label.startsWith("Social Media Pack")) activeTab = "social";
+    });
 
     setupChipRow("useCaseRow");
     setupChipRow("programmeFocusRow");
     setupChipRow("audienceRow");
     setupChipRow("languageRow");
 
-    setupChipRow("experienceRow", (label) => {
-      if (label.startsWith("Interactive Dashboard")) activateTab("dashboard");
-      else if (label.startsWith("Animated Short Film")) activateTab("animation");
-      else if (label.startsWith("Immersive Map")) activateTab("map");
-      else if (label.startsWith("Social Media Pack")) activateTab("social");
-    });
-
-    tabsRow.addEventListener("click", (e) => {
-      const btn = e.target.closest(".tab-btn");
-      if (!btn) return;
-      activeTab = btn.dataset.tab;
-      [...tabsRow.querySelectorAll(".tab-btn")].forEach((t) => t.classList.remove("tab-active"));
-      btn.classList.add("tab-active");
-
-      if (activeTab === "dashboard") activateChip("experienceRow", "Interactive Dashboard");
-      if (activeTab === "animation") activateChip("experienceRow", "Animated Short Film");
-      if (activeTab === "map") activateChip("experienceRow", "Immersive Map");
-      if (activeTab === "social") activateChip("experienceRow", "Social Media Pack");
-
-      updateCanvas();
-    });
-
     /*****************************************************
-     * QUICK BUTTONS
-     *****************************************************/
-    document.getElementById("qbDashboard").addEventListener("click", () => {
-      activateChip("experienceRow", "Interactive Dashboard");
-      activateChip("useCaseRow", "Amazon");
-      activateChip("programmeFocusRow", "Copernicus");
-      activateChip("audienceRow", "EU Delegations");
-      activateChip("languageRow", "EN");
-      activateTab("dashboard");
-      updateCanvas();
-    });
-
-    document.getElementById("qbAnimation").addEventListener("click", () => {
-      activateChip("experienceRow", "Animated Short Film");
-      activateChip("useCaseRow", "Mozambique");
-      activateChip("programmeFocusRow", "Galileo");
-      activateChip("audienceRow", "Citizens");
-      activateChip("languageRow", "PT");
-      activateTab("animation");
-      updateCanvas();
-    });
-
-    document.getElementById("qbMap").addEventListener("click", () => {
-      activateChip("experienceRow", "Immersive Map");
-      activateChip("useCaseRow", "Africa");
-      activateChip("programmeFocusRow", "Mixed");
-      activateChip("audienceRow", "EU Delegations");
-      activateChip("languageRow", "EN");
-      activateTab("map");
-      updateCanvas();
-    });
-
-    document.getElementById("qbSocial").addEventListener("click", () => {
-      activateChip("experienceRow", "Social Media Pack");
-      activateChip("useCaseRow", "Global");
-      activateChip("programmeFocusRow", "Full suite");
-      activateChip("audienceRow", "Journalists");
-      activateChip("languageRow", "FR");
-      activateTab("social");
-      updateCanvas();
-    });
-
-    /*****************************************************
-     * LABELS (LANGUAGE)
+     * LANGUAGE LABELS
      *****************************************************/
     function getLabelForLanguage(key, lang) {
       const dict = {
@@ -1799,14 +1656,13 @@
       const card = document.createElement("div");
       card.className = "canvas-card";
       const isAmazon = useCase.includes("Amazon");
-      const titleSuffix = isAmazon ? " · Amazon deforestation alerts" : "";
       const todayLabel = getLabelForLanguage("todayFromSpace", language);
 
       card.innerHTML =
         '<div class="canvas-card-header">' +
         '<div>' +
         '<div class="canvas-card-title">Interactive dashboard' +
-        titleSuffix +
+        (isAmazon ? " · Amazon deforestation alerts" : "") +
         "</div>" +
         '<div class="canvas-card-sub">Embedded on EUSPA / EEAS portals and Delegation sites.</div>' +
         "</div>" +
